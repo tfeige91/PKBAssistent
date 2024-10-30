@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject var cameraModel: CameraViewModel = CameraViewModel()
+    @StateObject private var speechRecognizer = SpeechRecognizer()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        HomeScreen()
+            .environmentObject(cameraModel)
+            .environmentObject(speechRecognizer)
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }

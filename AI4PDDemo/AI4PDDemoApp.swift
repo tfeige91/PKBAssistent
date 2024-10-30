@@ -12,6 +12,8 @@ struct AI4PDDemoApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.managedObjectContext, PersistenceController.shared.viewContext)
         }
     }
 }
+
