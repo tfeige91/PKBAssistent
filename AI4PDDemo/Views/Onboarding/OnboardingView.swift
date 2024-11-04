@@ -23,7 +23,7 @@ enum OnboardingState: Int, CaseIterable {
     case cardinalComplaint
     case functionalityDiary
     case doctor
-    case chat
+    //case chat
     case permissions
     case studyFlow
     case questionnaire
@@ -62,9 +62,9 @@ struct OnboardingView: View {
             case .doctor:
                 doctorDiaryView
                     .transition(transition)
-            case .chat:
-                chat
-                    .transition(transition)
+//            case .chat:
+//                chat
+//                    .transition(transition)
             case .questionnaire:
                 QuestionnaireView()
                     .transition(transition)

@@ -31,7 +31,7 @@ struct RecordingsView: View {
                         }
                     },
                                     label: {
-                        Text("Aufnahme \(session.id): \(session.date?.formatted(date: .long, time: .shortened) ?? "")")
+                        Text("Aufnahme \(session.id): \(formatDate(session.wrappedDate))")
                             .font(.largeTitle)
                             .frame(maxWidth: .infinity)
                             .frame(height: 70, alignment: .leading)
@@ -50,6 +50,18 @@ struct RecordingsView: View {
         }
         
     }
+    
+    private func formatDate(_ date:Date)->String{
+        return date.formatted(Date.FormatStyle()
+            .year(.defaultDigits)
+            .month(.abbreviated)
+            .day(.twoDigits)
+            .hour(.conversationalTwoDigits(amPM: .omitted))
+            .minute(.twoDigits)
+            .locale(Locale(identifier: "de_DE"))
+        )
+    }
+    
 }
 
 struct RecordingsView_Previews: PreviewProvider {

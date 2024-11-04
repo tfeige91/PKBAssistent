@@ -31,8 +31,8 @@ struct EndOfRecordingRatingView: View {
                             VStack(spacing: 30) {
                                 Text("Ihre Einschätzung")
                                     .font(.largeTitle.bold())
-                                    .padding(30)
-                                Text("")
+                                    
+                                
                                 ScrollView(.horizontal, showsIndicators: true){
                                     HStack(spacing:20) {
                                         ForEach(session.first!.recordedItemsArray) {item in

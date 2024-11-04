@@ -103,7 +103,7 @@ final class CameraViewModel: NSObject, ObservableObject {
     let mainScreenExplanationFileNames = [
         "Helpbutton",
         "Speechbutton",
-        "Chatbutton",
+        //"Chatbutton",
         "RecordingButton",
         "ShowRecordsButton",
         "DoctorView",
@@ -145,10 +145,10 @@ final class CameraViewModel: NSObject, ObservableObject {
         UPDRSItem(orderNumber: 1,
                   date: nil,
                   itemName: UPDRSItemName.MovementTremor.rawValue,
-                  displayName: "Bewegungstremor",
+                  displayName: "Bewegungstremor rechts",
                   recordingPosition: .sitting,
-                  instructionTest: "Strecken Sie zunächst Ihren Arm mit ausgestrecktem Zeigefinger weit nach vorn und führen Sie anschließend den Zeigefinger an Ihre Nasenspitze. Danach strecken Sie den Arm wieder weit aus. Wiederholen Sie das bitte fünf mal.",
-                  site: .none,
+                  instructionTest: "Wir beginnen zunächst mit dem rechten Arm. Strecken Sie zunächst Ihren Arm mit ausgestrecktem Zeigefinger weit nach vorn und führen Sie anschließend den Zeigefinger an Ihre Nasenspitze. Danach strecken Sie den Arm wieder weit aus. Wiederholen Sie das bitte fünf mal.",
+                  site: .right,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: false,
@@ -156,16 +156,28 @@ final class CameraViewModel: NSObject, ObservableObject {
                  ),
         UPDRSItem(orderNumber: 2,
                   date: nil,
+                  itemName: UPDRSItemName.MovementTremor.rawValue,
+                  displayName: "Bewegungstremor links",
+                  recordingPosition: .sitting,
+                  instructionTest: "Bitte führen Sie die Übung nun genau so mit dem linken Arm aus.",
+                  site: .left,
+                  url: nil,
+                  rating: nil,
+                  showInstructionByDefult: false,
+                  recordingDuration: 6
+                 ),
+        UPDRSItem(orderNumber: 3,
+                  date: nil,
                   itemName: UPDRSItemName.Fingertap.rawValue,
                   displayName: "Finger Tippen rechts",
                   recordingPosition: .sitting,
-                  instructionTest: "Nun folgt die Übung Finger Tippen. Wir beginnen zunächst mit der rechten Hand. Berühren Sie mit Ihrem rechten Zeigefinger die Kuppe Ihres Daumens. Öffnen Sie nun beide Finger soweit wie möglich von einander und führen Sie anschließend die Fingerkuppen wieder zusammen. Wiederholen Sie das nun bitte zehn mal und versuchen Sie bitte die Bewegung so schnell wie möglich und mit der größtmöglichen Amplitude auszuführen.",
+                  instructionTest: "Wir beginnen zunächst mit der rechten Hand. Berühren Sie mit Ihrem rechten Zeigefinger die Kuppe Ihres Daumens. Öffnen Sie nun beide Finger soweit wie möglich von einander und führen Sie anschließend die Fingerkuppen wieder zusammen. Wiederholen Sie das nun bitte zehn mal und versuchen Sie bitte die Bewegung so schnell wie möglich und mit der größtmöglichen Amplitude auszuführen.",
                   site: .right,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: true,
                   recordingDuration: 4),
-        UPDRSItem(orderNumber: 3,
+        UPDRSItem(orderNumber: 4,
                   date: nil,
                   itemName: UPDRSItemName.Fingertap.rawValue,
                   displayName: "Finger Tippen links",
@@ -176,18 +188,18 @@ final class CameraViewModel: NSObject, ObservableObject {
                   rating: nil,
                   showInstructionByDefult: false,
                   recordingDuration: 4),
-        UPDRSItem(orderNumber: 4,
+        UPDRSItem(orderNumber: 5,
                   date: nil,
                   itemName: UPDRSItemName.PronationSupination.rawValue,
                   displayName: "Pronation und Supination rechts",
                   recordingPosition: .sitting,
-                  instructionTest: "Nun folgt die Aufgabe Pronation und Supination. Strecken Sie den rechten Arm vor Ihrem Körper mit der Handfläche nach unten aus. Wenden Sie nun Ihre Handfläche mit größtmöglicher Amplitude alternierend zehn Mal nach oben und nach unten",
+                  instructionTest: "Strecken Sie den rechten Arm vor Ihrem Körper mit der Handfläche nach unten aus. Wenden Sie nun Ihre Handfläche mit größtmöglicher Amplitude alternierend zehn Mal nach oben und nach unten",
                   site: .right,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: false,
                   recordingDuration: 5),
-        UPDRSItem(orderNumber: 5,
+        UPDRSItem(orderNumber: 6,
                   date: nil,
                   itemName: UPDRSItemName.PronationSupination.rawValue,
                   displayName: "Pronation und Supination links",
@@ -198,18 +210,18 @@ final class CameraViewModel: NSObject, ObservableObject {
                   rating: nil,
                   showInstructionByDefult: false,
                   recordingDuration: 5),
-        UPDRSItem(orderNumber: 6,
+        UPDRSItem(orderNumber: 7,
                   date: nil,
                   itemName: UPDRSItemName.ToeTapping.rawValue,
                   displayName: "Fußtippen rechts",
                   recordingPosition: .sitting,
-                  instructionTest: "Als nächstes folgt die Übung Vorderfußtippen. Setzen Sie sich dafür bitte möglichst aufrecht hin. Stellen Sie Ihre Füße so auf den Boden, dass sie eine Bequeme Position für ihre Ferse einnehmen. Nun Tippen Sie bitte mit den Zehen wieder zehn mal und mit größtmöglicher Amplitude und schnellstmöglich auf den Boden. Wir beginnen wieder mit dem rechten Fuß.",
+                  instructionTest: "Setzen Sie sich dafür bitte möglichst aufrecht hin. Stellen Sie Ihre Füße so auf den Boden, dass sie eine Bequeme Position für ihre Ferse einnehmen. Nun Tippen Sie bitte mit den Zehen wieder zehn mal und mit größtmöglicher Amplitude und schnellstmöglich auf den Boden. Wir beginnen wieder mit dem rechten Fuß.",
                   site: .right,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: true,
                   recordingDuration: 5),
-        UPDRSItem(orderNumber: 7,
+        UPDRSItem(orderNumber: 8,
                   date: nil,
                   itemName: UPDRSItemName.ToeTapping.rawValue,
                   displayName: "Fußtippen Links",
@@ -220,7 +232,7 @@ final class CameraViewModel: NSObject, ObservableObject {
                   rating: nil,
                   showInstructionByDefult: false,
                   recordingDuration: 5),
-        UPDRSItem(orderNumber: 8,
+        UPDRSItem(orderNumber: 9,
                   date: nil,
                   itemName: UPDRSItemName.Walking.rawValue,
                   displayName: "Gehen",
@@ -389,22 +401,39 @@ extension CameraViewModel {
         let origin = boundingBox.origin
         let originalSize = bodyLayoutGuideFrame.size
         switch updrsItems[currentItem].recordingPosition {
-        case .sitting: self.bodyLayoutGuideFrame = CGRect(x: 0, y: min(-30, -1*origin.y), width: boundingBox.width*1.1, height: currentItem == 0 ? originalSize.height : boundingBox.height*1.01)
-        case .standing: self.bodyLayoutGuideFrame = CGRect(x: 0, y: min(-120, -1*origin.y), width: boundingBox.width*1.1, height: originalSize.height)
+        case .sitting: self.bodyLayoutGuideFrame = CGRect(x: 0, y: -50, width: boundingBox.width*1.05, height: boundingBox.height*1.01)
+        case .standing: self.bodyLayoutGuideFrame = CGRect(x: 0, y: updrsItems[currentItem].itemName == UPDRSItemName.Walking.rawValue ? -350:   -50, width: boundingBox.width*1.05, height: boundingBox.height * 1.01)
         }
         
-      // First, check face is roughly the same size as the layout guide
-        if boundingBox.width > 1.2 * bodyLayoutGuideFrame.width {
-          isAcceptableBounds = .detectedBodyTooLarge
-        } else if boundingBox.width * 2 < bodyLayoutGuideFrame.width {
-          isAcceptableBounds = .detectedBodyTooSmall
-        } else if boundingBox.height * 1.05 < bodyLayoutGuideFrame.height {
-          isAcceptableBounds = .detectedBodyTooSmall
-        } else if boundingBox.height > 1.05 * bodyLayoutGuideFrame.height {
-          isAcceptableBounds = .detectedBodyTooLarge
-      } else {
-          isAcceptableBounds = .detectedBodyAppropriateSizeAndPosition
-      }
+        
+        
+        print("DEBUG: BOUNDING BOX: \(boundingBox.minY)")
+        print("DEBUG: LayoutGuideFrame: \(self.bodyLayoutGuideFrame.minY)")
+        
+        let calculatedValue = boundingBox.minY * -1 - bodyLayoutGuideFrame.minY
+        print("DEBUG: Calculated value \(calculatedValue)")
+
+        
+        // First, check face is roughly the same size as the layout guide
+//        if boundingBox.width > 1.2 * bodyLayoutGuideFrame.width {
+//            isAcceptableBounds = .detectedBodyTooLarge
+//        } else if boundingBox.width * 2 < bodyLayoutGuideFrame.width {
+//            isAcceptableBounds = .detectedBodyTooSmall
+//        } else if boundingBox.height * 1.05 < bodyLayoutGuideFrame.height {
+//            isAcceptableBounds = .detectedBodyTooSmall
+//        } else if boundingBox.height > 1.05 * bodyLayoutGuideFrame.height {
+//            isAcceptableBounds = .detectedBodyTooLarge
+//        }
+        //check if feet are at the bottom of the boundingBox
+        if calculatedValue >= -10 {
+            isAcceptableBounds = .detectedBodyTooLarge
+        }
+        else if calculatedValue < -40 {
+            isAcceptableBounds = .detectedBodyTooSmall
+        }
+        else {
+            isAcceptableBounds = .detectedBodyAppropriateSizeAndPosition
+        }
 //        else {
 //        // Next, check face is roughly centered in the frame
 //        if abs(boundingBox.midX - bodyLayoutGuideFrame.midX) > 50 {
@@ -722,16 +751,21 @@ extension CameraViewModel {
 extension CameraViewModel {
     
     private func nextTrial() {
-        showLayoutGuidingView = true
+        
         if currentItem+1 < updrsItems.count {
             currentItem += 1
             itemURL = nil
+            
+            if updrsItems[currentItem].recordingPosition == .standing {
+                showLayoutGuidingView = true
+            }
+            
             //set the guideFrame according to whether it's a standing or sitting recording
             switch updrsItems[currentItem].recordingPosition {
             case .sitting:
-                self.bodyLayoutGuideFrame = CGRect(x: 0, y: -30, width: 370, height: 600)
+                self.bodyLayoutGuideFrame = CGRect(x: 0, y: -50, width: 370, height: 600)
             case .standing:
-                self.bodyLayoutGuideFrame = CGRect(x: 0, y: -120, width: 370, height: 282)
+                self.bodyLayoutGuideFrame = CGRect(x: 0, y: updrsItems[currentItem].itemName == UPDRSItemName.Walking.rawValue ? -350:   -50, width: 370, height: 282)
             
             }
             startedNextTrial.send()
@@ -757,8 +791,25 @@ extension CameraViewModel {
     }
 }
 
-//MARK: - Speech Instruction
+//MARK: - Reading Home Screen
+extension CameraViewModel {
+    func explainMainScreen(){
 
+        if currentTip <= mainScreenExplanationFileNames.count-1 {
+            if currentTip > -1 {
+                playAudio(subdirectory: "mainScreen", fileName: mainScreenExplanationFileNames[currentTip])
+        }else {
+                currentTip = -1
+            }
+         
+        }
+        
+    }
+}
+
+//MARK: - Recording Guidance
+
+//MARK: - AVAudioPlayerDelegate
 extension CameraViewModel: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool){
         //Check if the player played a main Screen Button explanation and if so increase the index by 1
@@ -770,21 +821,19 @@ extension CameraViewModel: AVAudioPlayerDelegate {
             }
         }
     }
+    
+    //helper function to stop the audio
+    func stopAudioPlayer(){
+        guard let audioPlayer = self.audioPlayer else { return }
+        if audioPlayer.isPlaying {
+            audioPlayer.stop()
+        }
+    }
+    
 }
 
+//MARK: - AVSpeechSynthesizerDelegate
 extension CameraViewModel: AVSpeechSynthesizerDelegate {
-    
-    func explainMainScreen(){
-        if currentTip <= mainScreenExplanations.count-1 {
-            if currentTip > -1 {
-                playAudio(subdirectory: "mainScreen", fileName: mainScreenExplanationFileNames[currentTip])
-        }else {
-                currentTip = -1
-            }
-         
-        }        
-        
-    }
     
     func startInstruction() {
         
@@ -815,13 +864,38 @@ extension CameraViewModel: AVSpeechSynthesizerDelegate {
     
     func guideNewVideo(){
         var newTask:String {
-            updrsItems[currentItem].itemName == UPDRSItemName.Walking.rawValue ? "Sehr gut, wir machen nun weiter mit der Aufgabe \(updrsItems[currentItem].displayName). Bitte rücken Sie den Stuhl zur Seite und gehen Sie soweit zurück, bis Sie wieder im Kästchen stehen. Ich sage Ihnen, sobald Sie richtig stehen." : "Sehr gut, wir machen nun weiter mit der Aufgabe \(updrsItems[currentItem].displayName). Ich schaue zunächst wieder, ob sie gut zur Kamera positioniert sind."
+            var string = updrsItems[currentItem].itemName == UPDRSItemName.Walking.rawValue ? "Sehr gut, wir machen nun weiter mit der Aufgabe \(updrsItems[currentItem].displayName). Bitte rücken Sie den Stuhl zur Seite und gehen Sie soweit zurück, bis Sie wieder im Kästchen stehen. Ich sage Ihnen, sobald Sie richtig stehen." : "Sehr gut, wir machen nun weiter mit der Aufgabe \(updrsItems[currentItem].displayName)."
+            
+            if updrsItems[currentItem].recordingPosition == .standing {
+                string += "Ich schaue zunächst wieder, ob sie gut zur Kamera positioniert sind."
+            }
+            return string
         }
         synthesizer.speak(createUtterance(from: newTask))
         
-        DispatchQueue.main.asyncAfter(deadline: .now()+5){
-            self.guidanceInstruction()
+        if updrsItems[currentItem].recordingPosition == .standing {
+            DispatchQueue.main.asyncAfter(deadline: .now()+5){
+                self.guidanceInstruction()
+            }
+        }else {
+            if currentItem == 0 {
+                synthesizer.speak(createUtterance(from: "Sehr gut, bitte setzen Sie sich nun vorsichtig hin."))
+                timer?.invalidate()
+                DispatchQueue.main.asyncAfter(deadline: .now()+10) { [weak self] in
+                    guard let self = self else {return}
+                    self.currentInstruction = "Wir können nun mit der Aufgabe beginnen. \(updrsItems[currentItem].showInstructionByDefult ? "Für diese Übung zeige Ich Ihnen eine Vorschau, während ich sie erkläre." : "") \(updrsItems[currentItem].instructionTest). Ich starte die Aufnahme in Drei...Zwei...Eins. Die Aufnahme läuft."
+                    
+                    synthesizer.speak(createUtterance(from: self.currentInstruction))
+                    timer?.invalidate()
+                }
+            }else{
+                self.currentInstruction = "\(updrsItems[currentItem].showInstructionByDefult ? "Für diese Übung zeige Ich Ihnen eine Vorschau, während ich sie erkläre." : "") \(updrsItems[currentItem].instructionTest). Ich starte die Aufnahme in Drei...Zwei...Eins. Die Aufnahme läuft."
+                
+                synthesizer.speak(createUtterance(from: self.currentInstruction))
+                timer?.invalidate()
+            }
         }
+        
     }
                                      
     func speakGuidanceInstruction(){
@@ -874,7 +948,7 @@ extension CameraViewModel: AVSpeechSynthesizerDelegate {
             showLayoutGuidingView = false
         }
     }
-    
+    //turn off InstructionOverlay
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
         //print(characterRange.location)
         //print(characterRange.length)
@@ -889,6 +963,7 @@ extension CameraViewModel: AVSpeechSynthesizerDelegate {
             }
     }
     
+    //start recording if it was an Instruction finished
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         //check if speaking correct is done
         if utterance.speechString == self.currentInstruction{

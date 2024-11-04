@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		50B3B5DA2CD234C900A40AE2 /* CodeCompletionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3B5D92CD234C900A40AE2 /* CodeCompletionTest.swift */; };
 		50E34F172CC67D0B0005F5D7 /* AI4PDDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34F162CC67D0B0005F5D7 /* AI4PDDemoApp.swift */; };
 		50E34F192CC67D0B0005F5D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34F182CC67D0B0005F5D7 /* ContentView.swift */; };
 		50E34F1B2CC67D0C0005F5D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50E34F1A2CC67D0C0005F5D7 /* Assets.xcassets */; };
@@ -91,7 +90,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		50B3B5D92CD234C900A40AE2 /* CodeCompletionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionTest.swift; sourceTree = "<group>"; };
 		50E34F132CC67D0B0005F5D7 /* AI4PDDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AI4PDDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50E34F162CC67D0B0005F5D7 /* AI4PDDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI4PDDemoApp.swift; sourceTree = "<group>"; };
 		50E34F182CC67D0B0005F5D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 		50B3B5D62CD231EC00A40AE2 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				50B3B5D92CD234C900A40AE2 /* CodeCompletionTest.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -580,7 +577,6 @@
 				50E34F9A2CC680BC0005F5D7 /* UPDRSItem.swift in Sources */,
 				50E34F9D2CC680BC0005F5D7 /* FeatureDetector.swift in Sources */,
 				50E34F772CC6809B0005F5D7 /* BodyBoundingBoxView.swift in Sources */,
-				50B3B5DA2CD234C900A40AE2 /* CodeCompletionTest.swift in Sources */,
 				50E34FC82CC681400005F5D7 /* RedCapAPIService.swift in Sources */,
 				50E34FCA2CC681400005F5D7 /* RCCheckbox.swift in Sources */,
 				50E34F712CC6809B0005F5D7 /* CameraViewController.swift in Sources */,
@@ -770,7 +766,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"AI4PDDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = 5TJU5VFP86;
 				ENABLE_PREVIEWS = YES;
@@ -807,7 +803,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"AI4PDDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = 5TJU5VFP86;
 				ENABLE_PREVIEWS = YES;

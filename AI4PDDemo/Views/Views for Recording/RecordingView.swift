@@ -73,6 +73,8 @@ extension RecordingView {
                         LayoutGuideView()
                         
                     }
+                    .ignoresSafeArea(.all)
+                    
                 }
                 
             }

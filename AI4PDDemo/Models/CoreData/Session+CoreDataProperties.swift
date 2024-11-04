@@ -32,6 +32,10 @@ extension Session {
             item1.orderNumber < item2.orderNumber
         }
     }
+    
+    public var isCompleted: Bool {
+        return recordedItemsArray.count == 10
+    }
 }
 
 // MARK: Generated accessors for recordedItems

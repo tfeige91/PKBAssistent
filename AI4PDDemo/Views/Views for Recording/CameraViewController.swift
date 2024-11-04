@@ -189,7 +189,7 @@ extension CameraViewController {
                 // turn off mirroring (might be awkward)
                 if connection.isVideoMirroringSupported {
                     connection.automaticallyAdjustsVideoMirroring = false
-                    connection.isVideoMirrored = false
+                    connection.isVideoMirrored = true
                 }
             }
             previewLayer?.videoGravity = .resizeAspect

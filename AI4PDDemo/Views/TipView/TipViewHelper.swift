@@ -64,11 +64,15 @@ struct ShowCaseRoot: ViewModifier {
                     if currentHighlight >= highlightOrder.count-1{
                         withAnimation(.easeInOut(duration: 0.3)) {
                             showHighlights = false
-                            currentHighlight = 0
+                            
+                            print("DEBUG: \(currentHighlight)")
                         }
                     }else{
                         withAnimation(.interactiveSpring(response: 0.3, dampingFraction: 0.7, blendDuration: 0.7)) {
-                            currentHighlight += 1
+                            if currentHighlight != -1 && currentHighlight <= highlightOrder.count-1{
+                                currentHighlight += 1
+                            }
+                            
                         }
                     }
                 }

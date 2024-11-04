@@ -110,7 +110,7 @@ struct HomeScreen: View {
                         }else if spokenNav == .doctor {
                             DoctorsView()
                         }else if spokenNav == .chat {
-                            MatrixView()
+                            //MatrixView()
                         }else if spokenNav == .questionnaire{
                             RCFormView()
                         }
@@ -176,30 +176,30 @@ extension HomeScreen {
     private var buttons: some View {
         VStack{
             //ChatbotButton
-            NavigationLink(value: SpokenNavigation.chat) {
-                WideButton(title: "Chat", color: .black)
-                    .showCase(order: 2, title: "Sprachsteuerung", cornerRadius: 10, scale: 1.05)
-            }
+//            NavigationLink(value: SpokenNavigation.chat) {
+//                WideButton(title: "Chat", color: .black)
+//                    .showCase(order: 2, title: "Sprachsteuerung", cornerRadius: 10, scale: 1.05)
+//            }
             
             NavigationLink(value: SpokenNavigation.recording) {
                 WideButton(title: "Übung starten", color: .green)
-                    .showCase(order: 3, title: "Sprachsteuerung", cornerRadius: 10, scale: 1.05)
+                    .showCase(order: 2, title: "Sprachsteuerung", cornerRadius: 10, scale: 1.05)
                     
             }
             
             NavigationLink(value: SpokenNavigation.diary) {
                 WideButton(title: "Videotagebuch", color: .blue)
-                    .showCase(order: 4, title: "Sprachsteuerung", cornerRadius: 10, scale: 1.05)
+                    .showCase(order: 3, title: "Sprachsteuerung", cornerRadius: 10, scale: 1.05)
             }
             
             NavigationLink(value: SpokenNavigation.doctor) {
                 WideButton(title: "Videovorstellung für den Arzt",color: Color.yellow)
-                    .showCase(order: 5, title: "Sprachsteuerung", cornerRadius: 10, scale: 1.05)
+                    .showCase(order: 4, title: "Sprachsteuerung", cornerRadius: 10, scale: 1.05)
             }
             
             NavigationLink(value: SpokenNavigation.questionnaire) {
                 WideButton(title: "Abschlussfragebogen",color: Color.gray)
-                    .showCase(order: 6, title: "Abschlussfragebogen", cornerRadius: 10, scale: 1.05)
+                    .showCase(order: 5, title: "Abschlussfragebogen", cornerRadius: 10, scale: 1.05)
             }
         }
         .frame(width: 500)
