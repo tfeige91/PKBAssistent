@@ -12,7 +12,7 @@ import Vision
 import AVFoundation
 
 enum UPDRSItemName: String, CaseIterable {
-    case Sitting
+    case RestingTremor
     case MovementTremor
     case Fingertap
     case ToeTapping
@@ -21,7 +21,7 @@ enum UPDRSItemName: String, CaseIterable {
     
 }
 
-enum Site: String, CaseIterable {
+enum Side: String, CaseIterable {
     case left
     case right
     case none
@@ -73,6 +73,30 @@ enum Instructions: String {
     case correct = "Sehr gut! Wir können nun mit der Aufgabe beginnen. Ich starte die Aufnahme in 3...2...1. Die Aufnahme läuft."
 }
 
+enum AudioSequenceType {
+    case readMainScreen
+    case recordingUPDRS
+}
+
+enum UPDRSInstructionStep {
+    case startPositioning
+    case sit
+    case wait
+    case readInstruction
+    case countToRecord
+    case startRecording
+    case nextTask
+    case introduceNextTask
+    case guidance
+    case guidanceSuccessfull
+    case beginTask
+}
+
+enum InstructionsType {
+    case full
+    case short
+}
+
 
 struct BodyGeometryModel {
     let boundingBox: CGRect
@@ -90,15 +114,6 @@ final class CameraViewModel: NSObject, ObservableObject {
     
     @Published var currentTip = -1
     //@Published var speakTip = false
-    let mainScreenExplanations = [
-        "Das ist der Hilfeknopf. Tippen Sie lange, und ich erkläre Ihnen alle Funktionen der einzelnen Knöpe noch einmal.",
-        "Mit diesem Knopf können Sie die Sprachsteuerung starten. Sagen Sie Übung, um eine Aufnahme zu beginnen. Sagen Sie Chat mit einem Arzt, um die Fragefunktion zu öffnen. Sagen Sie Videotagebuch, um sich alle Aufnahmen nocheinmal anschauen zu können. Oder sagen Sie Visite Vorbereiten, um sich den Verlauf Ihrer Symptome anzusehen.",
-        "Hier haben Sie die Möglichkeit, Ihrem Arzt Fragen zu stellen",
-        "Hier können Sie eine neue Aufnahme starten",
-        "Hier können Sie Ihre Aufnahmen ansehen",
-        "Hier öffnen Sie die Ansicht für Ihren Arzt oder Ihre Ärztin. Sie haben auch die Möglichkeit, selbst einen Überblick über den Verlauf Ihrer Symptome zu gewinnen.",
-        "Hier öffnen Sie den Abschlussfragebogen. Es ist wichtig, dass sie eine aktive Internetverbindung besitzen, um den Fragebogen ausfüllen zu können."
-    ]
     
     let mainScreenExplanationFileNames = [
         "Helpbutton",
@@ -113,7 +128,7 @@ final class CameraViewModel: NSObject, ObservableObject {
     // MARK: - Publishers of derived state
     @Published private(set) var hasDetectedValidBody: Bool
     
-    @Published private(set) var isAcceptableBounds: BodyBoundsState {
+    @Published private(set) var isAcceptableBounds: BodyBoundsState = .detectedBodyTooLarge {
       didSet {
         calculateDetectedBodyValidity()
       }
@@ -133,11 +148,11 @@ final class CameraViewModel: NSObject, ObservableObject {
     var updrsItems = [
         UPDRSItem(orderNumber: 0,
                   date: nil,
-                  itemName: UPDRSItemName.Sitting.rawValue,
+                  itemName: UPDRSItemName.RestingTremor.rawValue,
                   displayName: "Ruhetremor",
                   recordingPosition: .sitting,
                   instructionTest: "Versuchen Sie nun einfach entspannt zu sitzen und von einhundert in siebener Schritten herunterzuzählen.",
-                  site: .none,
+                  side: .none,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: false,
@@ -148,7 +163,7 @@ final class CameraViewModel: NSObject, ObservableObject {
                   displayName: "Bewegungstremor rechts",
                   recordingPosition: .sitting,
                   instructionTest: "Wir beginnen zunächst mit dem rechten Arm. Strecken Sie zunächst Ihren Arm mit ausgestrecktem Zeigefinger weit nach vorn und führen Sie anschließend den Zeigefinger an Ihre Nasenspitze. Danach strecken Sie den Arm wieder weit aus. Wiederholen Sie das bitte fünf mal.",
-                  site: .right,
+                  side: .right,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: false,
@@ -160,7 +175,7 @@ final class CameraViewModel: NSObject, ObservableObject {
                   displayName: "Bewegungstremor links",
                   recordingPosition: .sitting,
                   instructionTest: "Bitte führen Sie die Übung nun genau so mit dem linken Arm aus.",
-                  site: .left,
+                  side: .left,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: false,
@@ -172,7 +187,7 @@ final class CameraViewModel: NSObject, ObservableObject {
                   displayName: "Finger Tippen rechts",
                   recordingPosition: .sitting,
                   instructionTest: "Wir beginnen zunächst mit der rechten Hand. Berühren Sie mit Ihrem rechten Zeigefinger die Kuppe Ihres Daumens. Öffnen Sie nun beide Finger soweit wie möglich von einander und führen Sie anschließend die Fingerkuppen wieder zusammen. Wiederholen Sie das nun bitte zehn mal und versuchen Sie bitte die Bewegung so schnell wie möglich und mit der größtmöglichen Amplitude auszuführen.",
-                  site: .right,
+                  side: .right,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: true,
@@ -183,7 +198,7 @@ final class CameraViewModel: NSObject, ObservableObject {
                   displayName: "Finger Tippen links",
                   recordingPosition: .sitting,
                   instructionTest: "Bitte führen Sie das Finger Tippen nun genau so mit der linken Hand aus.",
-                  site: .left,
+                  side: .left,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: false,
@@ -194,7 +209,7 @@ final class CameraViewModel: NSObject, ObservableObject {
                   displayName: "Pronation und Supination rechts",
                   recordingPosition: .sitting,
                   instructionTest: "Strecken Sie den rechten Arm vor Ihrem Körper mit der Handfläche nach unten aus. Wenden Sie nun Ihre Handfläche mit größtmöglicher Amplitude alternierend zehn Mal nach oben und nach unten",
-                  site: .right,
+                  side: .right,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: false,
@@ -205,7 +220,7 @@ final class CameraViewModel: NSObject, ObservableObject {
                   displayName: "Pronation und Supination links",
                   recordingPosition: .sitting,
                   instructionTest: "Bitte führen Sie die Übung nun genau so mit dem linken Arm aus.",
-                  site: .left,
+                  side: .left,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: false,
@@ -216,7 +231,7 @@ final class CameraViewModel: NSObject, ObservableObject {
                   displayName: "Fußtippen rechts",
                   recordingPosition: .sitting,
                   instructionTest: "Setzen Sie sich dafür bitte möglichst aufrecht hin. Stellen Sie Ihre Füße so auf den Boden, dass sie eine Bequeme Position für ihre Ferse einnehmen. Nun Tippen Sie bitte mit den Zehen wieder zehn mal und mit größtmöglicher Amplitude und schnellstmöglich auf den Boden. Wir beginnen wieder mit dem rechten Fuß.",
-                  site: .right,
+                  side: .right,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: true,
@@ -227,7 +242,7 @@ final class CameraViewModel: NSObject, ObservableObject {
                   displayName: "Fußtippen Links",
                   recordingPosition: .sitting,
                   instructionTest: "Bitte führen Sie die gleiche Übung nun einmal mit ihrem linken Fuß aus.",
-                  site: .left,
+                  side: .left,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: false,
@@ -238,7 +253,7 @@ final class CameraViewModel: NSObject, ObservableObject {
                   displayName: "Gehen",
                   recordingPosition: .standing,
                   instructionTest: "Laufen Sie auf die Kamera zu, solange Sie vollständig im Bild sind. Drehen Sie sich dann einmal um einhunderachtzig Grad und laufen wieder zurück.",
-                  site: .none,
+                  side: .none,
                   url: nil,
                   rating: nil,
                   showInstructionByDefult: false,
@@ -272,6 +287,10 @@ final class CameraViewModel: NSObject, ObservableObject {
     //MARK: - Properties for the audioInstructions
     var audioPlayer: AVAudioPlayer?
     var currentAudioFile: String = ""
+    var currentAudioSequence: AudioSequenceType = .readMainScreen
+    var currentUPDRSInstructionState: UPDRSInstructionStep = .sit
+    var currentInstructionType :InstructionsType = .full
+    
     
     func playAudio(subdirectory: String, fileName:String,fileExtension:String = "wav"){
         
@@ -291,8 +310,9 @@ final class CameraViewModel: NSObject, ObservableObject {
         }
     }
     
+    
+    
     //MARK: - Properties for Recording
-    var movieFileOutput: AVCaptureMovieFileOutput? = nil
     //hacky approach
     var videoPreviewLayerOrientation = AVCaptureVideoOrientation(rawValue: 1)
     private var backgroundRecordingID: UIBackgroundTaskIdentifier?
@@ -317,7 +337,7 @@ final class CameraViewModel: NSObject, ObservableObject {
     override init() {
         
         self.hasDetectedValidBody = false
-        self.isAcceptableBounds = .unknown
+        self.isAcceptableBounds = .detectedBodyTooLarge
         self.bodyDetectedState = .noBodyDetected
         self.bodyGeometryState = .bodyNotFound
         
@@ -455,126 +475,7 @@ extension CameraViewModel {
 
 //MARK: - Writing Video
 extension CameraViewModel {
-//    func prepareWriter(sampleBuffer: CMSampleBuffer) {
-//                self.sessionAtSourceTime = nil
-//                print("prepare Writer")
-//                //get the correct URL
-//                if self.sessionURL == nil {
-//                    guard let (sessionNumber, sessionFolder) = fileManager.getNewSessionFolder() else  {print("could not create Session Folder"); return}
-//                    self.sessionNumber = sessionNumber
-//                    self.sessionURL = sessionFolder
-//                    //Add the current Session to Core data
-//                    addSessionToCoreData()
-//                }
-//                if self.itemURL == nil {
-//                    self.itemURL = URL(filePath: self.sessionURL!.path())
-//                        .appendingPathComponent("\(self.updrsItems[self.currentItem].itemName)_\(self.updrsItems[self.currentItem].site.rawValue)")
-//                        //.appendingPathComponent(self.updrsItems[self.currentItem].site.rawValue)
-//                        .appendingPathExtension("mov")
-//                }
-//        
-//                guard let videoOutputUrl = self.itemURL else  {print("could not create FilePath"); return}
-//        do {
-//            assetWriter = try AVAssetWriter(url: videoOutputUrl, fileType: .mov)
-//            
-//            // Set Video Settings
-//            guard let formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer) else { return }
-//            let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
-//            let width = dimensions.width
-//            let height = dimensions.height
-//            print("width: ", width)
-//            let videoOutputSettings: [String: Any] = [
-//                AVVideoCodecKey: AVVideoCodecType.h264,
-//                AVVideoWidthKey: Int(width),
-//                AVVideoHeightKey: Int(height),
-//                AVVideoCompressionPropertiesKey: [
-//                    AVVideoAverageBitRateKey: 6000000,
-//                    AVVideoExpectedSourceFrameRateKey: 60,
-//                    //AVVideoMaxKeyFrameIntervalKey: 60,
-//                    AVVideoProfileLevelKey: AVVideoProfileLevelH264High40
-//                ]
-//            ]
-//            
-//            assetWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoOutputSettings)
-//            
-//            guard let assetWriterInput = assetWriterInput, let assetWriter = assetWriter else { return }
-//            assetWriterInput.expectsMediaDataInRealTime = true
-//            
-//            // Adapt to portrait mode
-//            assetWriterInput.transform = CGAffineTransform(rotationAngle: .pi / 2)
-//            
-//            if assetWriter.canAdd(assetWriterInput) {
-//                assetWriter.add(assetWriterInput)
-//                print("Asset input added")
-//            } else {
-//                print("No input added")
-//            }
-//            
-//            writingQueue.async { [weak self] in
-//                guard let self = self, let writer = self.assetWriter else { return }
-//                writer.startWriting()
-//            }
-//            
-//            self.assetWriter = assetWriter
-//            self.assetWriterInput = assetWriterInput
-//            
-//        } catch let error {
-//            debugPrint(error.localizedDescription)
-//        }
-//    }
-//
-//    // Write Video
-//    private func writeVideo(sampleBuffer: CMSampleBuffer) {
-//        // Turn off the LayoutGuideFrame
-//        DispatchQueue.main.async { [weak self] in
-//            self?.showLayoutGuidingView = false
-//            self?.showRecordingIndicator = true
-//        }
-//        
-//        print("Write video called")
-//        
-//        guard !stopped else { return }
-//        
-//        guard let assetWriter = assetWriter else { return }
-//        
-//        switch assetWriter.status {
-//        case .writing:
-//            print("Status: writing")
-//        case .failed:
-//            if let error = assetWriter.error {
-//                print("Status: failed with error: \(error.localizedDescription)")
-//            }
-//        case .cancelled:
-//            print("Status: cancelled")
-//        case .unknown:
-//            print("Status: unknown")
-//        default:
-//            print("Status: completed")
-//        }
-//        
-//        // Set the stop once
-//        if !stopRecordingSet {
-//            stopRecordingSet = true
-//            DispatchQueue.main.asyncAfter(deadline: .now() + (updrsItems[currentItem].itemName == UPDRSItemName.Walking.rawValue ? 10 : 3)) {
-//                print("Stop recording after")
-//                self.stopRecording()
-//                print("Stop recording scheduled")
-//            }
-//        }
-//        
-//        // Start Writing Session
-//        if assetWriter.status == .writing && sessionAtSourceTime == nil {
-//            let sessionAtSourceTime = CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer)
-//            self.assetWriter?.startSession(atSourceTime: sessionAtSourceTime)
-//        }
-//        
-//        // Append current SampleBuffer
-//        guard let assetWriterInput = self.assetWriterInput else { return }
-//        if assetWriter.status == .writing, assetWriterInput.isReadyForMoreMediaData {
-//            assetWriterInput.append(sampleBuffer)
-//            self.frame += 1
-//        }
-//    }
+
     private func prepareWriter(sampleBuffer: CMSampleBuffer) {
         self.sessionAtSourceTime = nil
         print("prepare Writer")
@@ -589,7 +490,7 @@ extension CameraViewModel {
         }
         if self.itemURL == nil {
             self.itemURL = URL(filePath: self.sessionURL!.path())
-                .appendingPathComponent("\(self.updrsItems[self.currentItem].itemName)_\(self.updrsItems[self.currentItem].site.rawValue)")
+                .appendingPathComponent("\(self.updrsItems[self.currentItem].itemName)_\(self.updrsItems[self.currentItem].side.rawValue)")
                 //.appendingPathComponent(self.updrsItems[self.currentItem].site.rawValue)
                 .appendingPathExtension("mov")
         }
@@ -708,22 +609,6 @@ extension CameraViewModel {
         }
     }
     
-//    private func stopRecording(){
-//        
-//        guard let movieFileOutput = self.movieFileOutput else {return}
-//        print("recoring stop")
-//        self.didFinishWriting.send()
-//        movieFileOutput.stopRecording()
-//        stopRecordingSet = false
-//        frame = 0
-//        stopped = false
-//        //save Item to CoreData
-//        addItemToCoreData()
-//        showRecordingIndicator = false
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            self.nextTrial()
-//        }
-//    }
     
     private func stopRecording(){
         
@@ -769,6 +654,7 @@ extension CameraViewModel {
             
             }
             startedNextTrial.send()
+            currentUPDRSInstructionState = .nextTask
             guideNewVideo()
         }else {
             print("done")
@@ -794,7 +680,7 @@ extension CameraViewModel {
 //MARK: - Reading Home Screen
 extension CameraViewModel {
     func explainMainScreen(){
-
+        currentAudioSequence = .readMainScreen
         if currentTip <= mainScreenExplanationFileNames.count-1 {
             if currentTip > -1 {
                 playAudio(subdirectory: "mainScreen", fileName: mainScreenExplanationFileNames[currentTip])
@@ -812,14 +698,21 @@ extension CameraViewModel {
 //MARK: - AVAudioPlayerDelegate
 extension CameraViewModel: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool){
-        //Check if the player played a main Screen Button explanation and if so increase the index by 1
-        if mainScreenExplanationFileNames.contains(currentAudioFile){
-            if currentTip < mainScreenExplanationFileNames.count - 1{
-                self.currentTip += 1
-            }else{
-                currentTip = -1
+        //check what the player is playing
+        switch currentAudioSequence {
+        case .readMainScreen:
+            //Check if the player played a main Screen Button explanation and if so increase the index by 1
+            if mainScreenExplanationFileNames.contains(currentAudioFile){
+                if currentTip < mainScreenExplanationFileNames.count - 1{
+                    self.currentTip += 1
+                }else{
+                    currentTip = -1
+                }
             }
+        case .recordingUPDRS:
+            proceedToNextStep()
         }
+        
     }
     
     //helper function to stop the audio
@@ -836,12 +729,10 @@ extension CameraViewModel: AVAudioPlayerDelegate {
 extension CameraViewModel: AVSpeechSynthesizerDelegate {
     
     func startInstruction() {
-        
-        synthesizer.speak(createUtterance(from: Instructions.beginn.rawValue))
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()+8){
-            self.guidanceInstruction()
-        }
+        currentAudioSequence = .recordingUPDRS
+        currentUPDRSInstructionState = .startPositioning
+        playAudio(subdirectory: "position_instructions", fileName: "start_positioning")
+
     }
     
     private func pauseSpeech(){
@@ -856,79 +747,127 @@ extension CameraViewModel: AVSpeechSynthesizerDelegate {
     }
     
     func guidanceInstruction(){
-        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
-            self.speakGuidanceInstruction()
+        if timer == nil || !timer!.isValid {
+            print("DEBUG: timer set)")
+            timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
+                self.speakGuidanceInstruction()
+            }
+        }
+    }
+    
+    func guideNewVideo(){
+        instructAndRecord(item: updrsItems[currentItem])
+    }
+                                     
+    func speakGuidanceInstruction(){
+        print("DEBUG: speakGuidanceInstruction called")
+        switch isAcceptableBounds {
+        case .detectedBodyTooLarge:
+            print("DEBUG:Too large")
+            playAudio(subdirectory: "position_instructions", fileName: "goAway")
+            //synthesizer.speak(createUtterance(from: Instructions.goAway.rawValue))
+        case .unknown:
+            print("unknown")
+        case .detectedBodyTooSmall:
+            playAudio(subdirectory: "position_instructions", fileName: "comeNear")
+        case .detectedBodyOffCentre:
+            print("of center")
+        case .detectedBodyAppropriateSizeAndPosition:
+            currentUPDRSInstructionState = .guidanceSuccessfull
+            stopAudioPlayer()
+            proceedToNextStep()
         }
         
     }
     
-    func guideNewVideo(){
-        var newTask:String {
-            var string = updrsItems[currentItem].itemName == UPDRSItemName.Walking.rawValue ? "Sehr gut, wir machen nun weiter mit der Aufgabe \(updrsItems[currentItem].displayName). Bitte rücken Sie den Stuhl zur Seite und gehen Sie soweit zurück, bis Sie wieder im Kästchen stehen. Ich sage Ihnen, sobald Sie richtig stehen." : "Sehr gut, wir machen nun weiter mit der Aufgabe \(updrsItems[currentItem].displayName)."
-            
-            if updrsItems[currentItem].recordingPosition == .standing {
-                string += "Ich schaue zunächst wieder, ob sie gut zur Kamera positioniert sind."
-            }
-            return string
+    func proceedToNextStep() {
+        let currentItem = updrsItems[currentItem]
+        guard let itemName = UPDRSItemName(rawValue: currentItem.itemName) else {
+            return
         }
-        synthesizer.speak(createUtterance(from: newTask))
         
-        if updrsItems[currentItem].recordingPosition == .standing {
-            DispatchQueue.main.asyncAfter(deadline: .now()+5){
-                self.guidanceInstruction()
+        switch (itemName,currentUPDRSInstructionState) {
+        //if it is in the initial guiding state start the positioning
+        case (_,.startPositioning):
+            print("DEBUG: startPositioning")
+            self.guidanceInstruction()
+        case(_,.guidanceSuccessfull):
+            //invalidate Timer to stop guidance Instructions
+            timer?.invalidate()
+            currentUPDRSInstructionState = .beginTask
+            playAudio(subdirectory: "", fileName: "position_correct")
+            
+        case(_,.beginTask):
+            instructAndRecord(item: currentItem)
+        case (.RestingTremor, .sit):
+            playAudio(subdirectory: "position_instructions", fileName: "pleaseSit")
+            currentUPDRSInstructionState = .wait
+        case (.RestingTremor, .wait):
+            Task{
+                try? await Task.sleep(nanoseconds: 10 * 1_000_000_000)
+                //wait 10 seconds
+                currentUPDRSInstructionState = .readInstruction
+                proceedToNextStep()
             }
-        }else {
-            if currentItem == 0 {
-                synthesizer.speak(createUtterance(from: "Sehr gut, bitte setzen Sie sich nun vorsichtig hin."))
-                timer?.invalidate()
-                DispatchQueue.main.asyncAfter(deadline: .now()+10) { [weak self] in
-                    guard let self = self else {return}
-                    self.currentInstruction = "Wir können nun mit der Aufgabe beginnen. \(updrsItems[currentItem].showInstructionByDefult ? "Für diese Übung zeige Ich Ihnen eine Vorschau, während ich sie erkläre." : "") \(updrsItems[currentItem].instructionTest). Ich starte die Aufnahme in Drei...Zwei...Eins. Die Aufnahme läuft."
-                    
-                    synthesizer.speak(createUtterance(from: self.currentInstruction))
-                    timer?.invalidate()
+        case (.Walking,.introduceNextTask):
+            playAudio(subdirectory: "", fileName: "Walking_guiding")
+            currentUPDRSInstructionState = .guidance
+        case (.Walking, .guidance):
+            guidanceInstruction()
+        case (_, .readInstruction):
+            let side = currentItem.side
+            var audiofileName: String {
+                var string = itemName.rawValue
+                if side == .right {
+                    string+="_right"
+                }else if side == .left {
+                    string+="_left"
                 }
-            }else{
-                self.currentInstruction = "\(updrsItems[currentItem].showInstructionByDefult ? "Für diese Übung zeige Ich Ihnen eine Vorschau, während ich sie erkläre." : "") \(updrsItems[currentItem].instructionTest). Ich starte die Aufnahme in Drei...Zwei...Eins. Die Aufnahme läuft."
-                
-                synthesizer.speak(createUtterance(from: self.currentInstruction))
-                timer?.invalidate()
+                if currentInstructionType == .short {
+                    string+="_sh"
+                }
+                return string
             }
+            playAudio(subdirectory: "", fileName: audiofileName)
+            if currentItem.showInstructionByDefult {
+                showInstructionOverlay = true
+            }
+            currentUPDRSInstructionState = .countToRecord
+        case (_,.countToRecord):
+            showInstructionOverlay = false
+            playAudio(subdirectory: "position_instructions", fileName: "startRecording")
+            currentUPDRSInstructionState = .startRecording
+        case (_,.startRecording):
+            //tells FeatureDetector (RENAME) to initiate recording
+            self.shouldRecord.send()
+        default:
+            break
         }
+    
         
     }
-                                     
-    func speakGuidanceInstruction(){
-        switch isAcceptableBounds {
-        case .detectedBodyTooLarge:
-            synthesizer.speak(createUtterance(from: Instructions.goAway.rawValue))
-        case .unknown:
-            print("unknown")
-        case .detectedBodyTooSmall:
-            synthesizer.speak(createUtterance(from: Instructions.comeNear.rawValue))
-        case .detectedBodyOffCentre:
-            print("of center")
-        case .detectedBodyAppropriateSizeAndPosition:
-            
-            if currentItem == 0 {
-                synthesizer.speak(createUtterance(from: "Sehr gut, bitte setzen Sie sich nun vorsichtig hin."))
-                timer?.invalidate()
-                DispatchQueue.main.asyncAfter(deadline: .now()+10) { [weak self] in
-                    guard let self = self else {return}
-                    self.currentInstruction = "Wir können nun mit der Aufgabe beginnen. \(updrsItems[currentItem].showInstructionByDefult ? "Für diese Übung zeige Ich Ihnen eine Vorschau, während ich sie erkläre." : "") \(updrsItems[currentItem].instructionTest). Ich starte die Aufnahme in Drei...Zwei...Eins. Die Aufnahme läuft."
-                    
-                    synthesizer.speak(createUtterance(from: self.currentInstruction))
-                    timer?.invalidate()
-                }
-            }else{
-                self.currentInstruction = "Sehr gut! Wir können nun mit der Aufgabe beginnen. \(updrsItems[currentItem].showInstructionByDefult ? "Für diese Übung zeige Ich Ihnen eine Vorschau, während ich sie erkläre." : "") \(updrsItems[currentItem].instructionTest). Ich starte die Aufnahme in Drei...Zwei...Eins. Die Aufnahme läuft."
-                
-                synthesizer.speak(createUtterance(from: self.currentInstruction))
-                timer?.invalidate()
-            }
-         
-        }
+    
+    func instructAndRecord(item: UPDRSItem) {
         
+        
+        //set the currentAudioSequence to recordingUPDRS
+        currentAudioSequence = .recordingUPDRS
+        //turn off guidance overlay
+        showInstructionOverlay = false
+        //convert String Name to enum Value to make switch possible
+        let itemName = UPDRSItemName(rawValue: item.itemName)
+        if itemName == .RestingTremor {
+            currentUPDRSInstructionState = .sit
+        }else if itemName == .Walking{
+            if currentUPDRSInstructionState == .nextTask {
+                currentUPDRSInstructionState = .introduceNextTask
+            }else{
+                currentUPDRSInstructionState = .readInstruction
+            }
+        }else {
+            currentUPDRSInstructionState = .readInstruction
+        }
+        proceedToNextStep()
     }
     
     func SpeakRatingExplanation(){
@@ -972,10 +911,6 @@ extension CameraViewModel: AVSpeechSynthesizerDelegate {
                 self.shouldRecord.send()
             }
         }
-        
-//        if utterance.speechString == self.mainScreenExplanations[currentTip] && currentTip < mainScreenExplanations.count - 1{
-//            currentTip += 1
-//        }
     }
     
     private func createUtterance(from string: String) -> AVSpeechUtterance {
@@ -1027,7 +962,7 @@ extension CameraViewModel {
         item.rating = 0
         item.session = session
         item.videoURL = urlToSave
-        item.site = curIt.site
+        item.side = curIt.side
         save()
     }
     
@@ -1046,5 +981,7 @@ extension CameraViewModel {
             print("Error saving")
         }
     }
+    
+    //x 
     
 }

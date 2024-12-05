@@ -22,7 +22,7 @@ struct UPDRSItem {
     let displayName: String
     let recordingPosition: RecordingPosition
     let instructionTest: String
-    let site: Site
+    let side: Side
     let url: URL?
     let rating: ItemRating?
     let showInstructionByDefult: Bool

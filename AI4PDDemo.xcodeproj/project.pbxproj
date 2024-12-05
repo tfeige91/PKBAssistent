@@ -7,6 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5023D8FE2CDA37DA00733267 /* PronationSupination_left.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8EB2CDA37DA00733267 /* PronationSupination_left.wav */; };
+		5023D8FF2CDA37DA00733267 /* startRecording.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8E32CDA37DA00733267 /* startRecording.wav */; };
+		5023D9002CDA37DA00733267 /* PronationSupination_right_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8F82CDA37DA00733267 /* PronationSupination_right_sh.wav */; };
+		5023D9012CDA37DA00733267 /* pleaseSit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8E02CDA37DA00733267 /* pleaseSit.wav */; };
+		5023D9022CDA37DA00733267 /* ToeTapping_right_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8FB2CDA37DA00733267 /* ToeTapping_right_sh.wav */; };
+		5023D9032CDA37DA00733267 /* comeNear.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8DB2CDA37DA00733267 /* comeNear.wav */; };
+		5023D9042CDA37DA00733267 /* ToeTapping_left.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8EE2CDA37DA00733267 /* ToeTapping_left.wav */; };
+		5023D9052CDA37DA00733267 /* Walking_guiding.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8F12CDA37DA00733267 /* Walking_guiding.wav */; };
+		5023D9062CDA37DA00733267 /* start_positioning.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8E22CDA37DA00733267 /* start_positioning.wav */; };
+		5023D9072CDA37DA00733267 /* goRight.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8DE2CDA37DA00733267 /* goRight.wav */; };
+		5023D9082CDA37DA00733267 /* three.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8E42CDA37DA00733267 /* three.wav */; };
+		5023D9092CDA37DA00733267 /* MovementTremor_right_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8F62CDA37DA00733267 /* MovementTremor_right_sh.wav */; };
+		5023D90A2CDA37DA00733267 /* one.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8DF2CDA37DA00733267 /* one.wav */; };
+		5023D90B2CDA37DA00733267 /* MovementTremor_left_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8F52CDA37DA00733267 /* MovementTremor_left_sh.wav */; };
+		5023D90C2CDA37DA00733267 /* Fingertap_left.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8E72CDA37DA00733267 /* Fingertap_left.wav */; };
+		5023D90D2CDA37DA00733267 /* position_correct.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8E12CDA37DA00733267 /* position_correct.wav */; };
+		5023D90E2CDA37DA00733267 /* MovementTremor_right.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8EA2CDA37DA00733267 /* MovementTremor_right.wav */; };
+		5023D90F2CDA37DA00733267 /* ToeTapping_right.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8EF2CDA37DA00733267 /* ToeTapping_right.wav */; };
+		5023D9102CDA37DA00733267 /* PronationSupination_left_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8F72CDA37DA00733267 /* PronationSupination_left_sh.wav */; };
+		5023D9112CDA37DA00733267 /* goAway.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8DC2CDA37DA00733267 /* goAway.wav */; };
+		5023D9122CDA37DA00733267 /* Fingertap_left_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8F32CDA37DA00733267 /* Fingertap_left_sh.wav */; };
+		5023D9132CDA37DA00733267 /* Walking.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8F02CDA37DA00733267 /* Walking.wav */; };
+		5023D9142CDA37DA00733267 /* Fingertap_right_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8F42CDA37DA00733267 /* Fingertap_right_sh.wav */; };
+		5023D9152CDA37DA00733267 /* RestingTremor_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8F92CDA37DA00733267 /* RestingTremor_sh.wav */; };
+		5023D9162CDA37DA00733267 /* two.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8E52CDA37DA00733267 /* two.wav */; };
+		5023D9172CDA37DA00733267 /* Fingertap_right.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8E82CDA37DA00733267 /* Fingertap_right.wav */; };
+		5023D9182CDA37DA00733267 /* MovementTremor_left.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8E92CDA37DA00733267 /* MovementTremor_left.wav */; };
+		5023D9192CDA37DA00733267 /* Walking_guiding_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8FC2CDA37DA00733267 /* Walking_guiding_sh.wav */; };
+		5023D91A2CDA37DA00733267 /* RestingTremor.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8ED2CDA37DA00733267 /* RestingTremor.wav */; };
+		5023D91B2CDA37DA00733267 /* ToeTapping_left_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8FA2CDA37DA00733267 /* ToeTapping_left_sh.wav */; };
+		5023D91C2CDA37DA00733267 /* goLeft.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8DD2CDA37DA00733267 /* goLeft.wav */; };
+		5023D91D2CDA37DA00733267 /* PronationSupination_right.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8EC2CDA37DA00733267 /* PronationSupination_right.wav */; };
 		50E34F172CC67D0B0005F5D7 /* AI4PDDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34F162CC67D0B0005F5D7 /* AI4PDDemoApp.swift */; };
 		50E34F192CC67D0B0005F5D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34F182CC67D0B0005F5D7 /* ContentView.swift */; };
 		50E34F1B2CC67D0C0005F5D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50E34F1A2CC67D0C0005F5D7 /* Assets.xcassets */; };
@@ -90,6 +122,38 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5023D8DB2CDA37DA00733267 /* comeNear.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = comeNear.wav; sourceTree = "<group>"; };
+		5023D8DC2CDA37DA00733267 /* goAway.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goAway.wav; sourceTree = "<group>"; };
+		5023D8DD2CDA37DA00733267 /* goLeft.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goLeft.wav; sourceTree = "<group>"; };
+		5023D8DE2CDA37DA00733267 /* goRight.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goRight.wav; sourceTree = "<group>"; };
+		5023D8DF2CDA37DA00733267 /* one.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = one.wav; sourceTree = "<group>"; };
+		5023D8E02CDA37DA00733267 /* pleaseSit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pleaseSit.wav; sourceTree = "<group>"; };
+		5023D8E12CDA37DA00733267 /* position_correct.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = position_correct.wav; sourceTree = "<group>"; };
+		5023D8E22CDA37DA00733267 /* start_positioning.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = start_positioning.wav; sourceTree = "<group>"; };
+		5023D8E32CDA37DA00733267 /* startRecording.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = startRecording.wav; sourceTree = "<group>"; };
+		5023D8E42CDA37DA00733267 /* three.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = three.wav; sourceTree = "<group>"; };
+		5023D8E52CDA37DA00733267 /* two.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = two.wav; sourceTree = "<group>"; };
+		5023D8E72CDA37DA00733267 /* Fingertap_left.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Fingertap_left.wav; sourceTree = "<group>"; };
+		5023D8E82CDA37DA00733267 /* Fingertap_right.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Fingertap_right.wav; sourceTree = "<group>"; };
+		5023D8E92CDA37DA00733267 /* MovementTremor_left.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MovementTremor_left.wav; sourceTree = "<group>"; };
+		5023D8EA2CDA37DA00733267 /* MovementTremor_right.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MovementTremor_right.wav; sourceTree = "<group>"; };
+		5023D8EB2CDA37DA00733267 /* PronationSupination_left.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PronationSupination_left.wav; sourceTree = "<group>"; };
+		5023D8EC2CDA37DA00733267 /* PronationSupination_right.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PronationSupination_right.wav; sourceTree = "<group>"; };
+		5023D8ED2CDA37DA00733267 /* RestingTremor.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = RestingTremor.wav; sourceTree = "<group>"; };
+		5023D8EE2CDA37DA00733267 /* ToeTapping_left.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ToeTapping_left.wav; sourceTree = "<group>"; };
+		5023D8EF2CDA37DA00733267 /* ToeTapping_right.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ToeTapping_right.wav; sourceTree = "<group>"; };
+		5023D8F02CDA37DA00733267 /* Walking.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Walking.wav; sourceTree = "<group>"; };
+		5023D8F12CDA37DA00733267 /* Walking_guiding.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Walking_guiding.wav; sourceTree = "<group>"; };
+		5023D8F32CDA37DA00733267 /* Fingertap_left_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Fingertap_left_sh.wav; sourceTree = "<group>"; };
+		5023D8F42CDA37DA00733267 /* Fingertap_right_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Fingertap_right_sh.wav; sourceTree = "<group>"; };
+		5023D8F52CDA37DA00733267 /* MovementTremor_left_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MovementTremor_left_sh.wav; sourceTree = "<group>"; };
+		5023D8F62CDA37DA00733267 /* MovementTremor_right_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MovementTremor_right_sh.wav; sourceTree = "<group>"; };
+		5023D8F72CDA37DA00733267 /* PronationSupination_left_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PronationSupination_left_sh.wav; sourceTree = "<group>"; };
+		5023D8F82CDA37DA00733267 /* PronationSupination_right_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = PronationSupination_right_sh.wav; sourceTree = "<group>"; };
+		5023D8F92CDA37DA00733267 /* RestingTremor_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = RestingTremor_sh.wav; sourceTree = "<group>"; };
+		5023D8FA2CDA37DA00733267 /* ToeTapping_left_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ToeTapping_left_sh.wav; sourceTree = "<group>"; };
+		5023D8FB2CDA37DA00733267 /* ToeTapping_right_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ToeTapping_right_sh.wav; sourceTree = "<group>"; };
+		5023D8FC2CDA37DA00733267 /* Walking_guiding_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Walking_guiding_sh.wav; sourceTree = "<group>"; };
 		50E34F132CC67D0B0005F5D7 /* AI4PDDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AI4PDDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50E34F162CC67D0B0005F5D7 /* AI4PDDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI4PDDemoApp.swift; sourceTree = "<group>"; };
 		50E34F182CC67D0B0005F5D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -184,6 +248,59 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5023D8E62CDA37DA00733267 /* position_instructions */ = {
+			isa = PBXGroup;
+			children = (
+				5023D8DB2CDA37DA00733267 /* comeNear.wav */,
+				5023D8DC2CDA37DA00733267 /* goAway.wav */,
+				5023D8DD2CDA37DA00733267 /* goLeft.wav */,
+				5023D8DE2CDA37DA00733267 /* goRight.wav */,
+				5023D8DF2CDA37DA00733267 /* one.wav */,
+				5023D8E02CDA37DA00733267 /* pleaseSit.wav */,
+				5023D8E12CDA37DA00733267 /* position_correct.wav */,
+				5023D8E22CDA37DA00733267 /* start_positioning.wav */,
+				5023D8E32CDA37DA00733267 /* startRecording.wav */,
+				5023D8E42CDA37DA00733267 /* three.wav */,
+				5023D8E52CDA37DA00733267 /* two.wav */,
+			);
+			path = position_instructions;
+			sourceTree = "<group>";
+		};
+		5023D8F22CDA37DA00733267 /* updrs_instructions */ = {
+			isa = PBXGroup;
+			children = (
+				5023D8E72CDA37DA00733267 /* Fingertap_left.wav */,
+				5023D8E82CDA37DA00733267 /* Fingertap_right.wav */,
+				5023D8E92CDA37DA00733267 /* MovementTremor_left.wav */,
+				5023D8EA2CDA37DA00733267 /* MovementTremor_right.wav */,
+				5023D8EB2CDA37DA00733267 /* PronationSupination_left.wav */,
+				5023D8EC2CDA37DA00733267 /* PronationSupination_right.wav */,
+				5023D8ED2CDA37DA00733267 /* RestingTremor.wav */,
+				5023D8EE2CDA37DA00733267 /* ToeTapping_left.wav */,
+				5023D8EF2CDA37DA00733267 /* ToeTapping_right.wav */,
+				5023D8F02CDA37DA00733267 /* Walking.wav */,
+				5023D8F12CDA37DA00733267 /* Walking_guiding.wav */,
+			);
+			path = updrs_instructions;
+			sourceTree = "<group>";
+		};
+		5023D8FD2CDA37DA00733267 /* updrs_sh_instructions */ = {
+			isa = PBXGroup;
+			children = (
+				5023D8F32CDA37DA00733267 /* Fingertap_left_sh.wav */,
+				5023D8F42CDA37DA00733267 /* Fingertap_right_sh.wav */,
+				5023D8F52CDA37DA00733267 /* MovementTremor_left_sh.wav */,
+				5023D8F62CDA37DA00733267 /* MovementTremor_right_sh.wav */,
+				5023D8F72CDA37DA00733267 /* PronationSupination_left_sh.wav */,
+				5023D8F82CDA37DA00733267 /* PronationSupination_right_sh.wav */,
+				5023D8F92CDA37DA00733267 /* RestingTremor_sh.wav */,
+				5023D8FA2CDA37DA00733267 /* ToeTapping_left_sh.wav */,
+				5023D8FB2CDA37DA00733267 /* ToeTapping_right_sh.wav */,
+				5023D8FC2CDA37DA00733267 /* Walking_guiding_sh.wav */,
+			);
+			path = updrs_sh_instructions;
+			sourceTree = "<group>";
+		};
 		50B3B5D62CD231EC00A40AE2 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +340,9 @@
 				50E34F832CC680BC0005F5D7 /* Models */,
 				50E34FBA2CC681400005F5D7 /* Services */,
 				50E34FAB2CC681200005F5D7 /* mainScreen */,
+				5023D8E62CDA37DA00733267 /* position_instructions */,
+				5023D8F22CDA37DA00733267 /* updrs_instructions */,
+				5023D8FD2CDA37DA00733267 /* updrs_sh_instructions */,
 				50E34FCD2CC6815B0005F5D7 /* Fingertap.gif */,
 				50E34FCF2CC681660005F5D7 /* ToeTapping.gif */,
 				50E34FD12CC6817F0005F5D7 /* test.gif */,
@@ -521,6 +641,38 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5023D8FE2CDA37DA00733267 /* PronationSupination_left.wav in Resources */,
+				5023D8FF2CDA37DA00733267 /* startRecording.wav in Resources */,
+				5023D9002CDA37DA00733267 /* PronationSupination_right_sh.wav in Resources */,
+				5023D9012CDA37DA00733267 /* pleaseSit.wav in Resources */,
+				5023D9022CDA37DA00733267 /* ToeTapping_right_sh.wav in Resources */,
+				5023D9032CDA37DA00733267 /* comeNear.wav in Resources */,
+				5023D9042CDA37DA00733267 /* ToeTapping_left.wav in Resources */,
+				5023D9052CDA37DA00733267 /* Walking_guiding.wav in Resources */,
+				5023D9062CDA37DA00733267 /* start_positioning.wav in Resources */,
+				5023D9072CDA37DA00733267 /* goRight.wav in Resources */,
+				5023D9082CDA37DA00733267 /* three.wav in Resources */,
+				5023D9092CDA37DA00733267 /* MovementTremor_right_sh.wav in Resources */,
+				5023D90A2CDA37DA00733267 /* one.wav in Resources */,
+				5023D90B2CDA37DA00733267 /* MovementTremor_left_sh.wav in Resources */,
+				5023D90C2CDA37DA00733267 /* Fingertap_left.wav in Resources */,
+				5023D90D2CDA37DA00733267 /* position_correct.wav in Resources */,
+				5023D90E2CDA37DA00733267 /* MovementTremor_right.wav in Resources */,
+				5023D90F2CDA37DA00733267 /* ToeTapping_right.wav in Resources */,
+				5023D9102CDA37DA00733267 /* PronationSupination_left_sh.wav in Resources */,
+				5023D9112CDA37DA00733267 /* goAway.wav in Resources */,
+				5023D9122CDA37DA00733267 /* Fingertap_left_sh.wav in Resources */,
+				5023D9132CDA37DA00733267 /* Walking.wav in Resources */,
+				5023D9142CDA37DA00733267 /* Fingertap_right_sh.wav in Resources */,
+				5023D9152CDA37DA00733267 /* RestingTremor_sh.wav in Resources */,
+				5023D9162CDA37DA00733267 /* two.wav in Resources */,
+				5023D9172CDA37DA00733267 /* Fingertap_right.wav in Resources */,
+				5023D9182CDA37DA00733267 /* MovementTremor_left.wav in Resources */,
+				5023D9192CDA37DA00733267 /* Walking_guiding_sh.wav in Resources */,
+				5023D91A2CDA37DA00733267 /* RestingTremor.wav in Resources */,
+				5023D91B2CDA37DA00733267 /* ToeTapping_left_sh.wav in Resources */,
+				5023D91C2CDA37DA00733267 /* goLeft.wav in Resources */,
+				5023D91D2CDA37DA00733267 /* PronationSupination_right.wav in Resources */,
 				50E34FD22CC6817F0005F5D7 /* test.gif in Resources */,
 				50E34FB62CC681200005F5D7 /* DoctorView.wav in Resources */,
 				50E34FB42CC681200005F5D7 /* RecordingButton.wav in Resources */,

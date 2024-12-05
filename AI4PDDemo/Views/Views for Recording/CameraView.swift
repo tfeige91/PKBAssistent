@@ -10,6 +10,7 @@ import SwiftUI
 struct CameraView: View {
     
     @EnvironmentObject var model: CameraViewModel
+    @FetchRequest var session: 
     
     
     var body: some View {

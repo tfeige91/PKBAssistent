@@ -22,12 +22,11 @@ extension UPDRSRecordedItem {
     @NSManaged public var date: Date?
     @NSManaged public var rating: Int16
     @NSManaged public var session: Session?
-    @NSManaged public var siteRaw: String
+    @NSManaged public var sideRaw: String
 
     public var wrappedName: String {
         name ?? "UPDRS Aufnahme"
     }
-    
     
     
     public var wrappedDate: Date {
@@ -38,19 +37,19 @@ extension UPDRSRecordedItem {
         wrappedDate.getTimeOfDay()
     }
     
-    var site: Site {
-        get { return Site(rawValue: siteRaw) ?? .none }
-        set { siteRaw = newValue.rawValue }
+    var side: Side {
+        get { return Side(rawValue: sideRaw) ?? .none }
+        set { sideRaw = newValue.rawValue }
     }
     
     public var displayName: String {
-        let site: String = switch site {
+        let side: String = switch side {
         case .left: "links"
         case .right:"rechts"
         case .none:  ""
         }
         
-        let displayName: String = if wrappedName == UPDRSItemName.Sitting.rawValue {"Ruhetremor"}
+        let displayName: String = if wrappedName == UPDRSItemName.RestingTremor.rawValue {"Ruhetremor"}
             else if wrappedName == UPDRSItemName.MovementTremor.rawValue {"Bewegungstremor"}
             else if wrappedName == UPDRSItemName.Fingertap.rawValue {"Finger Tippen"}
             else if wrappedName == UPDRSItemName.PronationSupination.rawValue {"Pronation/Supination"}
@@ -59,7 +58,7 @@ extension UPDRSRecordedItem {
             else {""}
         
         
-        let displayString = displayName + " " + site
+        let displayString = displayName + " " + side
         return displayString
     }
 }
