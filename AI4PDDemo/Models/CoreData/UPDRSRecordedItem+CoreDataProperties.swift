@@ -42,6 +42,17 @@ extension UPDRSRecordedItem {
         set { sideRaw = newValue.rawValue }
     }
     
+    public var prettyItemName: String {
+        let displayName: String = if wrappedName == UPDRSItemName.RestingTremor.rawValue {"Ruhetremor"}
+            else if wrappedName == UPDRSItemName.MovementTremor.rawValue {"Bewegungstremor"}
+            else if wrappedName == UPDRSItemName.Fingertap.rawValue {"Finger Tippen"}
+            else if wrappedName == UPDRSItemName.PronationSupination.rawValue {"Pronation/Supination"}
+            else if wrappedName == UPDRSItemName.ToeTapping.rawValue {"Fußtippen"}
+            else if wrappedName == UPDRSItemName.Walking.rawValue {"Gehen"}
+            else {""}
+        return displayName
+    }
+    
     public var displayName: String {
         let side: String = switch side {
         case .left: "links"
@@ -64,5 +75,7 @@ extension UPDRSRecordedItem {
 }
 
 extension UPDRSRecordedItem : Identifiable {
-
+    public var id: String {
+        wrappedName+sideRaw
+    }
 }

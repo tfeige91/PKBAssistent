@@ -19,6 +19,7 @@ extension Session {
     @NSManaged public var id: Int16
     @NSManaged public var date: Date?
     @NSManaged public var recordedItems: NSSet?
+    @NSManaged public var url: String?
     
     //get date or the time of Steve Jobs iPhone presentation easter egg
     public var wrappedDate: Date {
@@ -31,6 +32,10 @@ extension Session {
         return set.sorted { item1, item2 in
             item1.orderNumber < item2.orderNumber
         }
+    }
+    
+    public var sessionNumber: Int {
+        Int(id) 
     }
     
     public var isCompleted: Bool {

@@ -29,51 +29,89 @@ enum OnboardingState: Int, CaseIterable {
     case questionnaire
 }
 
+enum OnboardingStateControl: Int, CaseIterable {
+    case purpose_control
+    case studyFlow_control
+    case questionnaire_control
+}
+
 struct OnboardingView: View {
     @State var onboardingState: OnboardingState = .purpose
     @AppStorage("didFinishedOnboarding") var didFinishedOnboarding: Bool?
+    @AppStorage("userGroup") var userGroup: String = ""
+    var studyGroup: UserGroup {
+        if let studyGroup = UserGroup(rawValue: userGroup) {
+            return studyGroup
+        }else {
+            return .intervention
+        }
+    }
     @EnvironmentObject var speechRecognizer: SpeechRecognizer
+    var steps: [Any] {
+        // Dynamisch die Schritte basierend auf der Gruppe auswählen
+        switch studyGroup {
+        case .intervention:
+            return OnboardingState.allCases
+        case .control:
+            return OnboardingStateControl.allCases
+        }
+    }
+    @State private var currentStepIndex: Int = 0
+    @State private var pageTurnedForward: Bool = true
     
-    let transition: AnyTransition = .asymmetric(
-            insertion: .move(edge: .trailing),
-            removal: .move(edge: .leading))
+    var transition: AnyTransition {
+        if pageTurnedForward {
+            return AnyTransition.asymmetric(
+                insertion: .move(edge: .trailing),
+                removal: .move(edge: .leading))
+        }else{
+            return AnyTransition.asymmetric(
+                insertion: .move(edge: .leading),
+                removal: .move(edge: .trailing))
+        }
+        
+    }
     
     var body: some View {
         ZStack{
-            switch onboardingState {
-            case .purpose:
-                purposeView
-                    .transition(transition)
-            case .functionalityVideo:
-                functionalityVideoView
-                    .transition(transition)
-            case .functionalityDiary:
-                functionalityDiaryView
-                    .transition(transition)
-            case .permissions:
-                permissionsView
-                    .transition(transition)
-            case .studyFlow:
-                studyView
-                    .transition(transition)
-            case .cardinalComplaint:
-                cardinalComplaintView
-                    .transition(transition)
-            case .doctor:
-                doctorDiaryView
-                    .transition(transition)
-//            case .chat:
-//                chat
-//                    .transition(transition)
-            case .questionnaire:
-                QuestionnaireView()
-                    .transition(transition)
-            }
+            if studyGroup == .intervention, let step = steps[currentStepIndex] as? OnboardingState {
+                            switch step {
+                            case .purpose:
+                                purposeView.transition(transition)
+                            case .functionalityVideo:
+                                functionalityVideoView.transition(transition)
+                            case .cardinalComplaint:
+                                cardinalComplaintView.transition(transition)
+                            case .functionalityDiary:
+                                functionalityDiaryView.transition(transition)
+                            case .doctor:
+                                doctorDiaryView.transition(transition)
+                            case .permissions:
+                                permissionsView.transition(transition)
+                            case .studyFlow:
+                                studyView.transition(transition)
+                            case .questionnaire:
+                                QuestionnaireView()
+                                    .transition(transition)
+                            }
+                        } else if studyGroup == .control, let step = steps[currentStepIndex] as? OnboardingStateControl {
+                            switch step {
+                            case .purpose_control:
+                                purposeView.transition(transition)
+                            case .studyFlow_control:
+                                studyView.transition(transition)
+                            case .questionnaire_control:
+                                QuestionnaireView()
+                                    .transition(transition)
+                            }
+                        }
+            
+            
             
             VStack {
                 Spacer()
                 HStack {
-                    if onboardingState.rawValue > 0  {
+                    if currentStepIndex > 0  {
                         previousButton
                     }
                     nextButton
@@ -92,20 +130,17 @@ struct OnboardingView: View {
     
     private var nextButton: some View {
         Button {
-            if onboardingState.rawValue <= (OnboardingState.allCases.count-2){
-                withAnimation(.spring()){
-                    onboardingState = OnboardingState(rawValue: (onboardingState.rawValue+1))!
-                }
-                
-            }else{
-                withAnimation(.spring()){
-                    didFinishedOnboarding = true
-                }
-                
-            }
+            pageTurnedForward = true
+            withAnimation(.spring()) {
+                            if currentStepIndex < steps.count - 1 {
+                                currentStepIndex += 1
+                            } else {
+                                didFinishedOnboarding = true
+                            }
+                        }
             
         } label: {
-            Text(onboardingState.rawValue == (OnboardingState.allCases.count-1) ? "Einführung beenden" : "Weiter")
+            Text(currentStepIndex == steps.count - 1 ? "Einführung beenden" : "Weiter")
                 .foregroundColor(.white)
                 .font(.headline.bold())
                 .frame(height: 50)
@@ -118,25 +153,21 @@ struct OnboardingView: View {
     
     private var previousButton: some View {
         
-        
-            Button {
-                if onboardingState.rawValue > 0 {
-                    withAnimation(.spring()){
-                    onboardingState = OnboardingState(rawValue: (onboardingState.rawValue-1))!}
-                }
-                
-            } label: {
-                Text("Zurück")
-                    .foregroundColor(.white)
-                    .font(.headline.bold())
-                    .frame(height: 50)
-                    .frame(maxWidth: 400)
-                    .background(.blue)
-                    .cornerRadius(10)
-                    .padding(.horizontal, 30)
+        Button {
+            pageTurnedForward = false
+            withAnimation(.spring()){
+                currentStepIndex = max(0, currentStepIndex - 1)
             }
-        
-        
+        } label: {
+            Text("Zurück")
+                .foregroundColor(.white)
+                .font(.headline.bold())
+                .frame(height: 50)
+                .frame(maxWidth: 400)
+                .background(.blue)
+                .cornerRadius(10)
+                .padding(.horizontal, 30)
+        }
     }
     
     private var purposeView: some View {
@@ -150,7 +181,7 @@ struct OnboardingView: View {
             Text("Herzlich Wilkommen")
                 .titleText()
             
-            Text(OnboardingData.welcomeMessage)
+            Text(studyGroup == .intervention ? OnboardingData.welcomeMessage : OnboardingData.welcomeMessageControl)
                 .paragraphTextStyle()
                 .padding()
             
@@ -158,10 +189,10 @@ struct OnboardingView: View {
         .frame(idealHeight: 500)
         .padding(.horizontal, 60)
     }
-
+    
     private var functionalityVideoView: some View {
         VStack{
-           Text("Funktionalitäten")
+            Text("Funktionalitäten")
                 .titleText()
             Text(OnboardingData.functionalityText)
                 .paragraphTextStyle()
@@ -172,7 +203,7 @@ struct OnboardingView: View {
     
     private var functionalityDiaryView: some View {
         VStack{
-           Text("Symptomtagebuch")
+            Text("Symptomtagebuch")
                 .titleText()
             Text(OnboardingData.diaryText)
                 .paragraphTextStyle()
@@ -183,7 +214,7 @@ struct OnboardingView: View {
     }
     private var permissionsView: some View {
         VStack{
-           Text("Berechtigungen")
+            Text("Berechtigungen")
                 .titleText()
             Text(OnboardingData.permissions)
                 .paragraphTextStyle()
@@ -221,7 +252,7 @@ struct OnboardingView: View {
                     .cornerRadius(10)
                     .padding(30)
             }
-
+            
         }
         .frame(idealHeight: 500)
         .padding(.horizontal, 60)
@@ -229,9 +260,9 @@ struct OnboardingView: View {
     
     private var studyView: some View {
         VStack{
-           Text("Ablauf der Studie")
+            Text("Ablauf der Studie")
                 .titleText()
-            Text(OnboardingData.studyText)
+            Text(studyGroup == .intervention ? OnboardingData.studyText: OnboardingData.studyTextControl)
                 .paragraphTextStyle()
         }
         .frame(idealHeight: 500)
@@ -240,7 +271,7 @@ struct OnboardingView: View {
     
     private var cardinalComplaintView: some View {
         VStack{
-           Text("Eigene Aufnahmen")
+            Text("Eigene Aufnahmen")
                 .titleText()
             Text(OnboardingData.cardinalComplaintText)
                 .paragraphTextStyle()
@@ -251,7 +282,7 @@ struct OnboardingView: View {
     
     private var doctorDiaryView: some View {
         VStack{
-           Text("Arztvisite")
+            Text("Arztvisite")
                 .titleText()
             Text(OnboardingData.doctorDiaryText)
                 .paragraphTextStyle()
@@ -262,7 +293,7 @@ struct OnboardingView: View {
     
     private var chat: some View {
         VStack{
-           Text("Antworten auf Ihre Fragen")
+            Text("Antworten auf Ihre Fragen")
                 .titleText()
             Text(OnboardingData.chatText)
                 .paragraphTextStyle()
@@ -275,7 +306,7 @@ struct OnboardingView: View {
         @State var text: String = ""
         var body: some View {
             VStack{
-               Text("Abschlussfragebogen")
+                Text("Abschlussfragebogen")
                     .titleText()
                 Text(text)
                     .paragraphTextStyle()
@@ -297,6 +328,12 @@ struct OnboardingData {
     Ich bin Ihr persönlicher Parkinson-Assistent.
     Ich freue mich sehr, dass Sie an unserer Studie teilnehmen!
     Ich möchte Ihnen zunächst erklären, wie ich Ihnen helfen kann, Ihre Symptome bestmöglich zu dokumentieren und für Ihren nächsten Arzt-Besuch aufzubereiten.
+    """
+    
+    static let welcomeMessageControl: String =
+    """
+    Vielen Dank, dass sie an unserer Studie teilnehmen! 
+    In dieser Studie möchten wir gerne herausfinden, wie zufrieden Sie mit der Versorgung Ihrer Parkinson-Erkrankung sind.
     """
     
     static let functionalityText: String =
@@ -324,7 +361,14 @@ struct OnboardingData {
     """
     Im Rahmen dieser Studie bitten wir Sie für einen Zeitraum von zwei Wochen jeden Tag drei Aufnahmen mit der App vorzunehmen, beispielsweise eine Vormittags, eine Nachmittags und eine Abends. Am besten geeignet sind Zeitpunkte, an denen sich Ihre Beweglichkeit oft verändert. Jede Aufnahme benötigt etwa fünf Minuten Zeit.
     
-    Nutzen Sie gern während der gesamten Studienzeit die Möglichkeit, über die Chat-Funktion Fragen zu stellen, die Ihnen bezüglich Ihrer Erkrankung durch den Kopf gehen.
+    """
+    
+    static let studyTextControl: String =
+    """
+    Im Rahmen dieser Studie bitten wir Sie an folgenden drei Zeitpunkten einige Fragebögen auszufüllen:
+    - Vor Ihrer Parkinson-Komplexbehandlung (PKB)
+    - Am Ende Ihrer PKB
+    - 8 Wochen nach Ihrer PKB
     """
     
     static let cardinalComplaintText: String =
@@ -344,6 +388,24 @@ struct OnboardingData {
     In der Chat-Funktion können Sie Fragen stellen, die Ihnen in Bezug auf Ihre Erkrankung haben. Tippen Sie dazu einfach Ihre Fragen ein und sie erhalten umgehend eine Antwort.
     """
     
+    static func getRecordIDText() async -> String{
+        do {
+            if  UserDefaults.standard.object(forKey: "RecordID") == nil {
+                let recordID = try await
+                RedCapAPIService.instance.addNewEmptyRecord()
+                UserDefaults.standard.set(recordID, forKey: "RecordID")
+            }
+            if let recordID = UserDefaults.standard.value(forKey: "RecordID") as? String {
+                return recordID
+            } else {
+                throw NSError(domain: "UserDefaultsError", code: 1, userInfo: [NSLocalizedDescriptionKey: "RecordID is not a String"])
+            }
+        } catch {
+            print("Error fetching or saving RecordID: \(error)")
+            return "" // or handle the error as appropriate
+        }
+    }
+    
     static func getQuestionnaireText() async -> String{
         
         do {
@@ -355,7 +417,13 @@ struct OnboardingData {
             let recordID = UserDefaults.standard.value(forKey: "RecordID")!
             return
                         """
-                        Bitte füllen Sie am Ende der zweiwöchigen Studiendauer den Fragebogen aus. Ihre RecordID lautet: \(recordID).
+                        Die Fragebögen vor Ihrer PKB füllen Sie bitte hier in der App aus. 
+                        Dafür ist es notwendig, dass das iPad mit dem Internet verbunden ist. 
+                        Wie Sie das iPad mit dem Internet verbinden, finden Sie in der gedruckten Anleitung.
+                        
+                        Die Fragebögen, die Sie am Ende Ihrer PKB ausfüllen sollen, können Sie ebenfalls in der App beantworten.
+                        
+                        Für den Abschlussfragebogen senden wir Ihnen eine E-Mail mit einem Link zu dem Abschlussfragebogen.
                         """
         }catch{
             print("no RecordID created")
@@ -371,7 +439,7 @@ struct OnboardingData {
 struct ParagraphText: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 32))
+            .font(.system(size: 30))
             .foregroundColor(.black.opacity(0.8))
             .multilineTextAlignment(.leading)
             .lineSpacing(7)
@@ -400,5 +468,6 @@ struct OnboardingView_Previews: PreviewProvider {
         NavigationStack {
             OnboardingView()
         }
+        .defaultAppStorage(PreviewUserDefaults.previewUserDefaults)
     }
 }

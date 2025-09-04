@@ -10,7 +10,7 @@ import SwiftUI
 struct CameraView: View {
     
     @EnvironmentObject var model: CameraViewModel
-    @FetchRequest var session: 
+    
     
     
     var body: some View {
@@ -27,6 +27,8 @@ struct CameraView: View {
                 model.timer?.invalidate()
                 model.timer = nil
             }
+            
+        
         //        .edgesIgnoringSafeArea(.all)
     }
 }

@@ -19,19 +19,21 @@ struct EndOfRecordingRatingView: View {
     }
     
     var body: some View {
-        VStack {
-            Color.clear.overlay {
+        
+        Color.clear
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .overlay {
                 GeometryReader {geo in
                     VStack {
                         ZStack {
                             RoundedRectangle(cornerRadius: 30)
                                 .fill(.thickMaterial)
-                                
+                            
                             
                             VStack(spacing: 30) {
                                 Text("Ihre Einschätzung")
                                     .font(.largeTitle.bold())
-                                    
+                                
                                 
                                 ScrollView(.horizontal, showsIndicators: true){
                                     HStack(spacing:20) {
@@ -57,19 +59,21 @@ struct EndOfRecordingRatingView: View {
                         .frame(width: (geo.size.width * 0.9),height: geo.size.height * 0.7)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                   
+                    
                 }
             }
-        }.onAppear {
-            model.SpeakRatingExplanation()
-        }.onDisappear{
-            model.synthesizer.stopSpeaking(at: .word)
-        }
+            .onAppear {
+                if session.first!.sessionNumber <= 2 {
+                    model.playAudio(subdirectory: "rating_view_instructions", fileName: "RatingViewInstruction")
+                }
+            }.onDisappear{
+                //model.stopAudioPlayer()
+            }
     }
 }
 
-struct EndOfRecordingRatingView_Previews: PreviewProvider {
-    static var previews: some View {
-        EndOfRecordingRatingView(sessionID: 1)
-    }
-}
+//struct EndOfRecordingRatingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EndOfRecordingRatingView(sessionID: 1)
+//    }
+//}

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50053E432D354FE600721330 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50053E422D354FE600721330 /* AppConstants.swift */; };
 		5023D8FE2CDA37DA00733267 /* PronationSupination_left.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8EB2CDA37DA00733267 /* PronationSupination_left.wav */; };
 		5023D8FF2CDA37DA00733267 /* startRecording.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8E32CDA37DA00733267 /* startRecording.wav */; };
 		5023D9002CDA37DA00733267 /* PronationSupination_right_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8F82CDA37DA00733267 /* PronationSupination_right_sh.wav */; };
@@ -39,6 +40,15 @@
 		5023D91B2CDA37DA00733267 /* ToeTapping_left_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8FA2CDA37DA00733267 /* ToeTapping_left_sh.wav */; };
 		5023D91C2CDA37DA00733267 /* goLeft.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8DD2CDA37DA00733267 /* goLeft.wav */; };
 		5023D91D2CDA37DA00733267 /* PronationSupination_right.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D8EC2CDA37DA00733267 /* PronationSupination_right.wav */; };
+		5023D9212D0CE1BC00733267 /* RatingViewInstruction.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D91E2D0CE1BC00733267 /* RatingViewInstruction.wav */; };
+		5023D9222D0CE1BC00733267 /* RatingViewInstruction_sh.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5023D91F2D0CE1BC00733267 /* RatingViewInstruction_sh.wav */; };
+		502AAE412D22E543006D745E /* StudyGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AAE402D22E543006D745E /* StudyGroupView.swift */; };
+		502D4E2D2D2E729E00F5A63B /* SingleEventSurveysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502D4E2C2D2E729E00F5A63B /* SingleEventSurveysView.swift */; };
+		502D4E2F2D2E85F400F5A63B /* SurveyStatusCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502D4E2E2D2E85F400F5A63B /* SurveyStatusCellView.swift */; };
+		5035BC4D2D3120A50063B18C /* QuestionnairesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5035BC4C2D3120A50063B18C /* QuestionnairesScreen.swift */; };
+		5058912D2D2EB5ED00BC294D /* RCSurveyWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5058912C2D2EB5ED00BC294D /* RCSurveyWebView.swift */; };
+		5058912F2D2EC39800BC294D /* TEST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5058912E2D2EC39800BC294D /* TEST.swift */; };
+		5099499E2D2D81FB00A4AA12 /* RCManualEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099499D2D2D81FB00A4AA12 /* RCManualEventView.swift */; };
 		50E34F172CC67D0B0005F5D7 /* AI4PDDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34F162CC67D0B0005F5D7 /* AI4PDDemoApp.swift */; };
 		50E34F192CC67D0B0005F5D7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34F182CC67D0B0005F5D7 /* ContentView.swift */; };
 		50E34F1B2CC67D0C0005F5D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50E34F1A2CC67D0C0005F5D7 /* Assets.xcassets */; };
@@ -102,6 +112,7 @@
 		50E34FCE2CC6815B0005F5D7 /* Fingertap.gif in Resources */ = {isa = PBXBuildFile; fileRef = 50E34FCD2CC6815B0005F5D7 /* Fingertap.gif */; };
 		50E34FD02CC681660005F5D7 /* ToeTapping.gif in Resources */ = {isa = PBXBuildFile; fileRef = 50E34FCF2CC681660005F5D7 /* ToeTapping.gif */; };
 		50E34FD22CC6817F0005F5D7 /* test.gif in Resources */ = {isa = PBXBuildFile; fileRef = 50E34FD12CC6817F0005F5D7 /* test.gif */; };
+		50FE067A2D11D27E00EDA22E /* UPDRSData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE06792D11D27E00EDA22E /* UPDRSData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +133,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		50053E422D354FE600721330 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		5023D8DB2CDA37DA00733267 /* comeNear.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = comeNear.wav; sourceTree = "<group>"; };
 		5023D8DC2CDA37DA00733267 /* goAway.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goAway.wav; sourceTree = "<group>"; };
 		5023D8DD2CDA37DA00733267 /* goLeft.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = goLeft.wav; sourceTree = "<group>"; };
@@ -154,6 +166,15 @@
 		5023D8FA2CDA37DA00733267 /* ToeTapping_left_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ToeTapping_left_sh.wav; sourceTree = "<group>"; };
 		5023D8FB2CDA37DA00733267 /* ToeTapping_right_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ToeTapping_right_sh.wav; sourceTree = "<group>"; };
 		5023D8FC2CDA37DA00733267 /* Walking_guiding_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Walking_guiding_sh.wav; sourceTree = "<group>"; };
+		5023D91E2D0CE1BC00733267 /* RatingViewInstruction.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = RatingViewInstruction.wav; sourceTree = "<group>"; };
+		5023D91F2D0CE1BC00733267 /* RatingViewInstruction_sh.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = RatingViewInstruction_sh.wav; sourceTree = "<group>"; };
+		502AAE402D22E543006D745E /* StudyGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyGroupView.swift; sourceTree = "<group>"; };
+		502D4E2C2D2E729E00F5A63B /* SingleEventSurveysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleEventSurveysView.swift; sourceTree = "<group>"; };
+		502D4E2E2D2E85F400F5A63B /* SurveyStatusCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyStatusCellView.swift; sourceTree = "<group>"; };
+		5035BC4C2D3120A50063B18C /* QuestionnairesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnairesScreen.swift; sourceTree = "<group>"; };
+		5058912C2D2EB5ED00BC294D /* RCSurveyWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCSurveyWebView.swift; sourceTree = "<group>"; };
+		5058912E2D2EC39800BC294D /* TEST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TEST.swift; sourceTree = "<group>"; };
+		5099499D2D2D81FB00A4AA12 /* RCManualEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RCManualEventView.swift; sourceTree = "<group>"; };
 		50E34F132CC67D0B0005F5D7 /* AI4PDDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AI4PDDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50E34F162CC67D0B0005F5D7 /* AI4PDDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI4PDDemoApp.swift; sourceTree = "<group>"; };
 		50E34F182CC67D0B0005F5D7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -221,6 +242,7 @@
 		50E34FCD2CC6815B0005F5D7 /* Fingertap.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Fingertap.gif; sourceTree = "<group>"; };
 		50E34FCF2CC681660005F5D7 /* ToeTapping.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ToeTapping.gif; sourceTree = "<group>"; };
 		50E34FD12CC6817F0005F5D7 /* test.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = test.gif; sourceTree = "<group>"; };
+		50FE06792D11D27E00EDA22E /* UPDRSData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPDRSData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +323,15 @@
 			path = updrs_sh_instructions;
 			sourceTree = "<group>";
 		};
+		5023D9202D0CE1BC00733267 /* rating_view_instructions */ = {
+			isa = PBXGroup;
+			children = (
+				5023D91E2D0CE1BC00733267 /* RatingViewInstruction.wav */,
+				5023D91F2D0CE1BC00733267 /* RatingViewInstruction_sh.wav */,
+			);
+			path = rating_view_instructions;
+			sourceTree = "<group>";
+		};
 		50B3B5D62CD231EC00A40AE2 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +374,7 @@
 				5023D8E62CDA37DA00733267 /* position_instructions */,
 				5023D8F22CDA37DA00733267 /* updrs_instructions */,
 				5023D8FD2CDA37DA00733267 /* updrs_sh_instructions */,
+				5023D9202D0CE1BC00733267 /* rating_view_instructions */,
 				50E34FCD2CC6815B0005F5D7 /* Fingertap.gif */,
 				50E34FCF2CC681660005F5D7 /* ToeTapping.gif */,
 				50E34FD12CC6817F0005F5D7 /* test.gif */,
@@ -422,6 +454,7 @@
 			isa = PBXGroup;
 			children = (
 				50E34F5C2CC6809B0005F5D7 /* OnboardingView.swift */,
+				502AAE402D22E543006D745E /* StudyGroupView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -434,6 +467,7 @@
 				50E34F622CC6809B0005F5D7 /* ChartTest.swift */,
 				50E34F632CC6809B0005F5D7 /* LineChartView.swift */,
 				50E34F642CC6809B0005F5D7 /* CDLineChartView.swift */,
+				50053E422D354FE600721330 /* AppConstants.swift */,
 				50E34F652CC6809B0005F5D7 /* ChartsAnnotatedTest.swift */,
 				50E34F662CC6809B0005F5D7 /* DoctorsView.swift */,
 			);
@@ -467,6 +501,7 @@
 				50E34F872CC680BC0005F5D7 /* CameraViewModel.swift */,
 				50E34F882CC680BC0005F5D7 /* FeatureDetector.swift */,
 				50E34F892CC680BC0005F5D7 /* CameraInstructor.swift */,
+				50FE06792D11D27E00EDA22E /* UPDRSData.swift */,
 			);
 			path = RecordingModels;
 			sourceTree = "<group>";
@@ -532,7 +567,13 @@
 			isa = PBXGroup;
 			children = (
 				50E34FC12CC681400005F5D7 /* RCRadioButtons.swift */,
+				5099499D2D2D81FB00A4AA12 /* RCManualEventView.swift */,
+				5035BC4C2D3120A50063B18C /* QuestionnairesScreen.swift */,
 				50E34FC22CC681400005F5D7 /* RCCheckbox.swift */,
+				502D4E2C2D2E729E00F5A63B /* SingleEventSurveysView.swift */,
+				502D4E2E2D2E85F400F5A63B /* SurveyStatusCellView.swift */,
+				5058912E2D2EC39800BC294D /* TEST.swift */,
+				5058912C2D2EB5ED00BC294D /* RCSurveyWebView.swift */,
 			);
 			path = RCViews;
 			sourceTree = "<group>";
@@ -618,11 +659,12 @@
 			};
 			buildConfigurationList = 50E34F0E2CC67D0B0005F5D7 /* Build configuration list for PBXProject "AI4PDDemo" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = de;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = 50E34F0A2CC67D0B0005F5D7;
 			productRefGroup = 50E34F142CC67D0B0005F5D7 /* Products */;
@@ -664,6 +706,8 @@
 				5023D9122CDA37DA00733267 /* Fingertap_left_sh.wav in Resources */,
 				5023D9132CDA37DA00733267 /* Walking.wav in Resources */,
 				5023D9142CDA37DA00733267 /* Fingertap_right_sh.wav in Resources */,
+				5023D9212D0CE1BC00733267 /* RatingViewInstruction.wav in Resources */,
+				5023D9222D0CE1BC00733267 /* RatingViewInstruction_sh.wav in Resources */,
 				5023D9152CDA37DA00733267 /* RestingTremor_sh.wav in Resources */,
 				5023D9162CDA37DA00733267 /* two.wav in Resources */,
 				5023D9172CDA37DA00733267 /* Fingertap_right.wav in Resources */,
@@ -711,15 +755,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				502AAE412D22E543006D745E /* StudyGroupView.swift in Sources */,
 				50E34FC92CC681400005F5D7 /* RCRadioButtons.swift in Sources */,
 				50E34F6C2CC6809B0005F5D7 /* TipView.swift in Sources */,
 				50E34FC62CC681400005F5D7 /* RedCapTestView.swift in Sources */,
 				50E34F752CC6809B0005F5D7 /* LayoutGuideView.swift in Sources */,
+				5035BC4D2D3120A50063B18C /* QuestionnairesScreen.swift in Sources */,
 				50E34F792CC6809B0005F5D7 /* HomeScreen.swift in Sources */,
 				50E34F7C2CC6809B0005F5D7 /* SingleItemView.swift in Sources */,
 				50E34FA12CC680BC0005F5D7 /* Session+CoreDataProperties.swift in Sources */,
+				502D4E2F2D2E85F400F5A63B /* SurveyStatusCellView.swift in Sources */,
+				50FE067A2D11D27E00EDA22E /* UPDRSData.swift in Sources */,
 				50E34F802CC6809B0005F5D7 /* CDLineChartView.swift in Sources */,
 				50E34F742CC6809B0005F5D7 /* GifImageView.swift in Sources */,
+				502D4E2D2D2E729E00F5A63B /* SingleEventSurveysView.swift in Sources */,
+				50053E432D354FE600721330 /* AppConstants.swift in Sources */,
 				50E34F702CC6809B0005F5D7 /* EndOfRecordingRatingView.swift in Sources */,
 				50E34F732CC6809B0005F5D7 /* CameraView.swift in Sources */,
 				50E34FA52CC680BC0005F5D7 /* SpeechRecognizer.swift in Sources */,
@@ -733,6 +783,7 @@
 				50E34FCA2CC681400005F5D7 /* RCCheckbox.swift in Sources */,
 				50E34F712CC6809B0005F5D7 /* CameraViewController.swift in Sources */,
 				50E34F762CC6809B0005F5D7 /* GuidingOverlayView.swift in Sources */,
+				5099499E2D2D81FB00A4AA12 /* RCManualEventView.swift in Sources */,
 				50E34F6E2CC6809B0005F5D7 /* Testview.swift in Sources */,
 				50E34FA22CC680BC0005F5D7 /* UPDRSRecordedItem+CoreDataProperties.swift in Sources */,
 				50E34F822CC6809B0005F5D7 /* DoctorsView.swift in Sources */,
@@ -742,6 +793,7 @@
 				50E34F6F2CC6809B0005F5D7 /* Test.swift in Sources */,
 				50E34FA32CC680BC0005F5D7 /* Model.xcdatamodeld in Sources */,
 				50E34F7D2CC6809B0005F5D7 /* RecordingsView.swift in Sources */,
+				5058912D2D2EB5ED00BC294D /* RCSurveyWebView.swift in Sources */,
 				50E34F722CC6809B0005F5D7 /* RecordingView.swift in Sources */,
 				50E34FCB2CC681400005F5D7 /* RedCapModels.swift in Sources */,
 				50E34F7B2CC6809B0005F5D7 /* ListTest.swift in Sources */,
@@ -753,6 +805,7 @@
 				50E34F782CC6809B0005F5D7 /* MockView.swift in Sources */,
 				50E34F6D2CC6809B0005F5D7 /* MatrixView.swift in Sources */,
 				50E34F812CC6809B0005F5D7 /* ChartsAnnotatedTest.swift in Sources */,
+				5058912F2D2EC39800BC294D /* TEST.swift in Sources */,
 				50E34F7A2CC6809B0005F5D7 /* OnboardingView.swift in Sources */,
 				50E34FCC2CC681400005F5D7 /* RCFormView.swift in Sources */,
 				50E34FA02CC680BC0005F5D7 /* Session+CoreDataClass.swift in Sources */,
@@ -845,7 +898,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -902,7 +955,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -918,7 +971,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_ASSET_PATHS = "\"AI4PDDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = 5TJU5VFP86;
 				ENABLE_PREVIEWS = YES;
@@ -929,7 +982,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"Die Kamera wird für die Aufnahme benötigt\"";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"Für Audioaufnahmen benötigen wir Ihre Zustimmung\"";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "\"Für die Sprachsteuerung benötigen wir Ihre Zustimmung\"";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
@@ -955,7 +1007,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 23;
 				DEVELOPMENT_ASSET_PATHS = "\"AI4PDDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = 5TJU5VFP86;
 				ENABLE_PREVIEWS = YES;
@@ -966,7 +1018,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "\"Die Kamera wird für die Aufnahme benötigt\"";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"Für Audioaufnahmen benötigen wir Ihre Zustimmung\"";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "\"Für die Sprachsteuerung benötigen wir Ihre Zustimmung\"";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;

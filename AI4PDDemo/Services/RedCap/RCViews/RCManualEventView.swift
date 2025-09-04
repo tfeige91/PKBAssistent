@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+//Use this View if you know which event you want to display.
+
 struct RCManualEventView: View {
     let eventName: String
     let eventDisplayName: String
@@ -31,7 +33,7 @@ struct RCManualEventView: View {
                     HStack{
                         VStack(alignment: .leading){
                             NavigationLink {
-                                SingleEventSurveysView(event: redCapEvents.first!, NavigationText: detailViewNavigationText, introText: detailViewIntroText)
+                                SingleEventSurveysView(event: event, NavigationText: detailViewNavigationText, introText: detailViewIntroText)
                             } label: {
                                 Text(eventDisplayName)
                                     .font(.title)
@@ -41,8 +43,11 @@ struct RCManualEventView: View {
                             Text(shortDescription)
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
+                                .onAppear(){
+                                    print(event)
+                                }
                         }
-                        Spacer()
+                        
                         
 
                     }
@@ -54,14 +59,14 @@ struct RCManualEventView: View {
                             )
                 }
             }
-        .scrollContentBackground(.hidden)
+            .frame(height: 160)
+        //.scrollContentBackground(.hidden)
         .padding(.horizontal,30)
         .onAppear{
             if let userGroup = UserGroup(rawValue: userGroup!){
                 Task {
                     redCapEvents = try await RedCapAPIService.instance.getEventsForStudyArm(arm: userGroup)
-                    print(redCapEvents)
-                    print(redCapEvents.first!)
+                   
                 }
                 
             }
@@ -69,14 +74,7 @@ struct RCManualEventView: View {
     }
 }
 
-struct PreviewUserDefaults {
-    static let previewUserDefaults: UserDefaults = {
-        let d = UserDefaults(suiteName: "preview_user_defaults")!
-        d.set("control", forKey: "userGroup")
-        d.set("146", forKey: "RecordID")
-        return d
-    }()
-}
+
 
 #Preview {
     // Provide a default value for the @AppStorage key
@@ -86,7 +84,7 @@ struct PreviewUserDefaults {
     }()
     
     NavigationStack {
-        RCManualEventView(eventName: "baseline",
+        RCManualEventView(eventName: "pkb",
                          eventDisplayName: "Eingangsfragebögen",
                          shortDescription: "Bitte füllen Sie diese Fragebögen bis zu Ihrer Parkinson Komplexbehandlung aus",
                          detailViewNavigationText: "Eingangsfragebögen",

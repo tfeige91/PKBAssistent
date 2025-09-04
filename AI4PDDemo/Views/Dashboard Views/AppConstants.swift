@@ -6,3 +6,9 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct AppConstants {
+    static let lineChartColors: [Color] = [.blue, .red, .green, .yellow, .purple, .orange, .pink, .cyan]
+}
+

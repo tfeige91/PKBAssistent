@@ -102,6 +102,21 @@ struct BodyGeometryModel {
     let boundingBox: CGRect
 }
 
+//to make sure only one recording at the same time is possible
+actor RecordingGate {
+    static let shared = RecordingGate()
+    private var isBusy = false
+
+    func acquire() -> Bool {
+        guard !isBusy else { return false }
+        isBusy = true
+        return true
+    }
+
+    func release() { isBusy = false }
+}
+
+@MainActor
 final class CameraViewModel: NSObject, ObservableObject {
     
     //MARK: - Show View Components
@@ -115,15 +130,38 @@ final class CameraViewModel: NSObject, ObservableObject {
     @Published var currentTip = -1
     //@Published var speakTip = false
     
-    let mainScreenExplanationFileNames = [
-        "Helpbutton",
-        "Speechbutton",
-        //"Chatbutton",
-        "RecordingButton",
-        "ShowRecordsButton",
-        "DoctorView",
-        "QuestionnaireButton"
-    ]
+    //adjust for the studyGroup if non is set return the voice over for the study group
+    var mainScreenExplanationFileNames: [String] {
+        var explanations = [String]()
+        let studyGroupRaw = UserDefaults.standard.string(forKey: "userGroup") ?? ""
+        guard let studyGroup = UserGroup(rawValue: studyGroupRaw) else { return [
+            "Helpbutton",
+            "Speechbutton",
+            //"Chatbutton",
+            "RecordingButton",
+            "ShowRecordsButton",
+            "DoctorView",
+            "QuestionnaireButton"
+        ] }
+        if studyGroup == .intervention {
+            explanations.append(contentsOf: [
+                "Helpbutton",
+                "Speechbutton",
+                //"Chatbutton",
+                "RecordingButton",
+                "ShowRecordsButton",
+                "DoctorView",
+                "QuestionnaireButton"
+            ])
+        }else if studyGroup == .control {
+            explanations.append(contentsOf: [
+                "Helpbutton",
+                "Speechbutton",
+                "QuestionnaireButton"
+            ])
+        }
+        return explanations
+    }
     
     // MARK: - Publishers of derived state
     @Published private(set) var hasDetectedValidBody: Bool
@@ -318,8 +356,8 @@ final class CameraViewModel: NSObject, ObservableObject {
     private var backgroundRecordingID: UIBackgroundTaskIdentifier?
     
     //Saving Video Files
-    private var assetWriter: AVAssetWriter? = nil
-    private var assetWriterInput: AVAssetWriterInput? = nil
+    var assetWriter: AVAssetWriter? = nil
+    var assetWriterInput: AVAssetWriterInput? = nil
     private let writingQueue = DispatchQueue(label: "videoWritingQueue")
     var sessionNumber: Int?
     var sessionURL: URL?
@@ -332,7 +370,7 @@ final class CameraViewModel: NSObject, ObservableObject {
     
     //CoreData
     private let viewContext = PersistenceController.shared.viewContext
-    private var session: Session?
+    var session: Session?
     
     override init() {
         
@@ -418,8 +456,8 @@ extension CameraViewModel {
     
     func updateAcceptableBounds(using boundingBox: CGRect) {
         //get the Value from the lower end of the bounding box
-        let origin = boundingBox.origin
-        let originalSize = bodyLayoutGuideFrame.size
+//        let origin = boundingBox.origin
+//        let originalSize = bodyLayoutGuideFrame.size
         switch updrsItems[currentItem].recordingPosition {
         case .sitting: self.bodyLayoutGuideFrame = CGRect(x: 0, y: -50, width: boundingBox.width*1.05, height: boundingBox.height*1.01)
         case .standing: self.bodyLayoutGuideFrame = CGRect(x: 0, y: updrsItems[currentItem].itemName == UPDRSItemName.Walking.rawValue ? -350:   -50, width: boundingBox.width*1.05, height: boundingBox.height * 1.01)
@@ -427,11 +465,11 @@ extension CameraViewModel {
         
         
         
-        print("DEBUG: BOUNDING BOX: \(boundingBox.minY)")
-        print("DEBUG: LayoutGuideFrame: \(self.bodyLayoutGuideFrame.minY)")
+//        print("DEBUG: BOUNDING BOX: \(boundingBox.minY)")
+//        print("DEBUG: LayoutGuideFrame: \(self.bodyLayoutGuideFrame.minY)")
         
         let calculatedValue = boundingBox.minY * -1 - bodyLayoutGuideFrame.minY
-        print("DEBUG: Calculated value \(calculatedValue)")
+//        print("DEBUG: Calculated value \(calculatedValue)")
 
         
         // First, check face is roughly the same size as the layout guide
@@ -477,79 +515,109 @@ extension CameraViewModel {
 extension CameraViewModel {
 
     private func prepareWriter(sampleBuffer: CMSampleBuffer) {
-        self.sessionAtSourceTime = nil
-        print("prepare Writer")
-        //get the correct URL
-        if self.sessionURL == nil {
-            print("generate session URK")
-            guard let (sessionNumber, sessionFolder) = fileManager.getNewSessionFolder() else  {print("could not create Session Folder"); return}
-            self.sessionNumber = sessionNumber
-            self.sessionURL = sessionFolder
-            //Add the current Session to Core data
-            addSessionToCoreData()
-        }
-        if self.itemURL == nil {
+        print("prepare Writer started \n")
+        print("Session", self.session ?? "no session")
+        print("currentItemNumber",self.currentItem)
+        print("current Item: ","\(self.updrsItems[self.currentItem].itemName)_\(self.updrsItems[self.currentItem].side.rawValue)")
+        Task{
+            //check if there already is a recording
+            guard await RecordingGate.shared.acquire() else {
+                        print("Recording already in progress – skipping prepareWriter")
+                        return
+                    }
+            self.sessionAtSourceTime = nil
+            //get the correct URL
+    //        print(session?.id)
+    //        print("DEBUG SESSION URL: \(self.sessionURL)")
+    //        print("DEBUG SESSION URL: \(self.session?.url)")
+            if self.session == nil {
+                if self.sessionURL == nil {
+                    print("generate session URK")
+                    guard let (sessionNumber, sessionFolder) = fileManager.getNewSessionFolder() else  {print("could not create Session Folder"); return}
+                    self.sessionNumber = sessionNumber
+                    self.sessionURL = sessionFolder
+    //                print("DEBUG SESSION URL: \(sessionURL)")
+                    //Add the current Session to Core data
+                    addSessionToCoreData()
+                }
+            }else{
+                if let id = session?.sessionNumber{
+                    self.sessionURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("recordings").appendingPathComponent("Session_\(id)")
+                }
+               
+                
+    //            print("DEBUG SESSION URL: \(self.sessionURL)")
+            }
+            
             self.itemURL = URL(filePath: self.sessionURL!.path())
                 .appendingPathComponent("\(self.updrsItems[self.currentItem].itemName)_\(self.updrsItems[self.currentItem].side.rawValue)")
                 //.appendingPathComponent(self.updrsItems[self.currentItem].site.rawValue)
                 .appendingPathExtension("mov")
-        }
-        
-        guard let videoOutputUrl = self.itemURL else  {print("could not create FilePath"); return}
-        
-        print("VIDEOOUTPUTURL: ",videoOutputUrl)
-        
-        //Set Up AVAssetWriter
-        do {
-            assetWriter = try AVAssetWriter(url: videoOutputUrl, fileType: .mov)
             
-            //set Video Settings
-            //get samplebuffer properties
-            guard let formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer) else {return}
-            let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
-            let width = dimensions.width
-            let height = dimensions.height
-            print("width: ",width)
-            let videoOutputSettings: [String: Any] = [
-                AVVideoCodecKey: AVVideoCodecType.h264,
-                AVVideoWidthKey: Int(width),
-                AVVideoHeightKey: Int(height)
-//                AVVideoCompressionPropertiesKey: [
-//                    AVVideoAverageBitRateKey: 6000000,
-//                    AVVideoExpectedSourceFrameRateKey: 60,
-//                    AVVideoMaxKeyFrameIntervalKey: 60,
-//                    AVVideoProfileLevelKey: AVVideoProfileLevelH264High40
-//                ]
-            ]
-            
-            assetWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoOutputSettings)
-            
-            guard let assetWriterInput = assetWriterInput, let assetWriter = assetWriter else { return }
-            assetWriterInput.expectsMediaDataInRealTime = true
-            
-            // Adapt to portrait mode
-            assetWriterInput.transform = CGAffineTransform(rotationAngle: .pi/2)
-            
-            if assetWriter.canAdd(assetWriterInput) {
-                assetWriter.add(assetWriterInput)
-                print("asset input added")
-            } else {
-                print("no input added")
+            //if already there delete it
+            if FileManager.default.fileExists(atPath: self.itemURL!.path) {
+                try? FileManager.default.removeItem(at: self.itemURL!  )
+                print("item removed")
             }
+        
             
-            writingQueue.async {[weak self] in
-                guard let self = self, let writer = self.assetWriter else {return}
-                assetWriter.startWriting()
-            }
+    //        print("DEBUG SESSION URL: ItemURL\(self.itemURL)")
+            guard let videoOutputUrl = self.itemURL else  {print("could not create FilePath"); return}
+            
+            print("VIDEOOUTPUTURL: ",videoOutputUrl)
+            
+            //Set Up AVAssetWriter
+            do {
+                assetWriter = try AVAssetWriter(url: videoOutputUrl, fileType: .mov)
+                
+                //set Video Settings
+                //get samplebuffer properties
+                guard let formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer) else {return}
+                let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
+                let width = dimensions.width
+                let height = dimensions.height
+                print("width: ",width)
+                let videoOutputSettings: [String: Any] = [
+                    AVVideoCodecKey: AVVideoCodecType.h264,
+                    AVVideoWidthKey: Int(width),
+                    AVVideoHeightKey: Int(height)
+    //                AVVideoCompressionPropertiesKey: [
+    //                    AVVideoAverageBitRateKey: 6000000,
+    //                    AVVideoExpectedSourceFrameRateKey: 60,
+    //                    AVVideoMaxKeyFrameIntervalKey: 60,
+    //                    AVVideoProfileLevelKey: AVVideoProfileLevelH264High40
+    //                ]
+                ]
+                
+                assetWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: videoOutputSettings)
+                
+                guard let assetWriterInput = assetWriterInput, let assetWriter = assetWriter else { return }
+                assetWriterInput.expectsMediaDataInRealTime = true
+                
+                // Adapt to portrait mode
+                assetWriterInput.transform = CGAffineTransform(rotationAngle: .pi/2)
+                
+                if assetWriter.canAdd(assetWriterInput) {
+                    assetWriter.add(assetWriterInput)
+                    print("asset input added")
+                } else {
+                    print("no input added")
+                }
+                
+                writingQueue.async {[weak self] in
+                    guard let self = self, let writer = self.assetWriter else {return}
+                    assetWriter.startWriting()
+                }
 
-           
-            
-            self.assetWriter = assetWriter
-            self.assetWriterInput = assetWriterInput
-            
-            
-        } catch let error {
-            debugPrint(error.localizedDescription)
+               
+                
+                self.assetWriter = assetWriter
+                self.assetWriterInput = assetWriterInput
+                
+                
+            } catch let error {
+                debugPrint(error.localizedDescription)
+            }
         }
             
     }
@@ -562,10 +630,8 @@ extension CameraViewModel {
             self?.showRecordingIndicator = true
         }
         
-        print("old write Video called")
-        
         guard !stopped else {return}
-        
+
         switch self.assetWriter?.status {
                 case .writing:
                     print("Status: writing")
@@ -580,8 +646,6 @@ extension CameraViewModel {
                 default:
                     print("Status: completed")
                 }
-                
-        
         //set the stop once
         if !stopRecordingSet {
             stopRecordingSet = true
@@ -594,41 +658,41 @@ extension CameraViewModel {
         
         //start Writing Session
         if assetWriter?.status == .writing && self.sessionAtSourceTime == nil {
-            let sessionAtSourceTime = CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer)
-            self.assetWriter?.startSession(atSourceTime: sessionAtSourceTime)
+            let ts = CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer)
+            self.assetWriter?.startSession(atSourceTime: ts)
+            self.sessionAtSourceTime = ts
           
         }
-        print("writer url",assetWriter?.outputURL)
         //append current Samplebuffer
         guard let assetWriterInput = self.assetWriterInput else {return}
         if assetWriter?.status == .writing, assetWriterInput.isReadyForMoreMediaData {
             assetWriterInput.append(sampleBuffer)
             self.frame += 1
-//            print("assetwriter is writing frame \(frame)")
-//            print("Writer appended Input")
         }
     }
     
-    
     private func stopRecording(){
-        
-        self.didFinishWriting.send()
-        self.assetWriterInput?.markAsFinished()
         Task{
+            self.didFinishWriting.send()
+            self.assetWriterInput?.markAsFinished()
             await assetWriter?.finishWriting()
-            //self.sessionAtSourceTime = nil
-            
+            self.sessionAtSourceTime = nil
+            //reset the RecordingGate
+            await RecordingGate.shared.release()
             print("Recording finished")
+            stopRecordingSet = false
+            frame = 0
+            stopped = false
+            //save Item to CoreData
+            addItemToCoreData()
+            DispatchQueue.main.async {
+                self.showRecordingIndicator = false
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.nextTrial()
+            }
         }
-        stopRecordingSet = false
-        frame = 0
-        stopped = false
-        //save Item to CoreData
-        addItemToCoreData()
-        showRecordingIndicator = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.nextTrial()
-        }
+        
     }
     
 }
@@ -749,7 +813,7 @@ extension CameraViewModel: AVSpeechSynthesizerDelegate {
     func guidanceInstruction(){
         if timer == nil || !timer!.isValid {
             print("DEBUG: timer set)")
-            timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (timer) in
+            timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { (timer) in
                 self.speakGuidanceInstruction()
             }
         }
@@ -794,8 +858,17 @@ extension CameraViewModel: AVSpeechSynthesizerDelegate {
         case(_,.guidanceSuccessfull):
             //invalidate Timer to stop guidance Instructions
             timer?.invalidate()
+            DispatchQueue.main.async {[weak self] in
+                //if position correct: turn off rectangle
+                self?.showLayoutGuidingView = false
+            }
             currentUPDRSInstructionState = .beginTask
-            playAudio(subdirectory: "", fileName: "position_correct")
+            //not double "sehr gut"
+            if itemName != .RestingTremor {
+                playAudio(subdirectory: "", fileName: "position_correct")
+            }else{
+                proceedToNextStep()
+            }
             
         case(_,.beginTask):
             instructAndRecord(item: currentItem)
@@ -815,6 +888,10 @@ extension CameraViewModel: AVSpeechSynthesizerDelegate {
         case (.Walking, .guidance):
             guidanceInstruction()
         case (_, .readInstruction):
+            DispatchQueue.main.async {[weak self] in
+                self?.showInstructionOverlay = false
+            }
+            
             let side = currentItem.side
             var audiofileName: String {
                 var string = itemName.rawValue
@@ -970,6 +1047,7 @@ extension CameraViewModel {
         let session = Session(context: viewContext)
         session.id = Int16(self.sessionNumber ?? 0)
         session.date = Date()
+        session.url = self.sessionURL?.absoluteString
         self.session = session
         save()
     }

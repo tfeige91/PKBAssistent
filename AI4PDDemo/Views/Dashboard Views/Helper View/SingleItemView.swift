@@ -85,7 +85,7 @@ struct SingleItemView: View {
                     
                     let documentURL = VideoFileManager.instance.documentsDirectory
                     let fileURL = documentURL.appendingPathComponent(url.path())
-                    print("url to show:", fileURL)
+                    print("DEBUG SESSION URL: url to show in player:", fileURL)
                     player = AVPlayer(url: fileURL)
                     
                     previewImage = try await previewImageFromVideo(url: fileURL)

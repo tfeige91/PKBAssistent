@@ -89,13 +89,13 @@ struct RCFormView: View {
         //}
         .navigationTitle(questionnaire)
         .onAppear {
-//            UserDefaults.standard.set("99", forKey: "RecordId")
-//            let decoder = JSONDecoder()
-//            guard let surveyFields = try? decoder.decode([RCField].self, from: jsonData!) else {
-//                fatalError("Decoding failed")
-//            }
-//            //print(surveyFields)
-//            self.surveyItems = surveyFields
+            UserDefaults.standard.set("99", forKey: "RecordId")
+            let decoder = JSONDecoder()
+            guard let surveyFields = try? decoder.decode([RCField].self, from: jsonData!) else {
+                fatalError("Decoding failed")
+            }
+            //print(surveyFields)
+            self.surveyItems = surveyFields
             Task{
                 let allQuests = try await rc.fetchInstruments()
                 let quest = try await rc.fetchInstrument(allQuests[0].instrumentLabel)

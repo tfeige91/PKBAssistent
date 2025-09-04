@@ -23,13 +23,13 @@ class FeatureDetector: NSObject {
                 switch completion {
                 case .finished:
                     return
-                case .failure(let error):
-                    print("error: \(error)")
+                case .failure(let error): break
+//                    print("error: \(error)")
                 }
             } receiveValue: { _ in
                 self.shouldRecord = true
                 self.isRecording = false
-                print("shouldrecord",self.shouldRecord)
+//                print("shouldrecord",self.shouldRecord)
             }
             .store(in: &subscriptions)
             
@@ -37,8 +37,8 @@ class FeatureDetector: NSObject {
                 switch completion {
                 case .finished:
                     return
-                case .failure(let error):
-                    print("error: \(error)")
+                case .failure(let error): break
+//                    print("error: \(error)")
                 }
             } receiveValue: { _ in
                 self.isRecording = true
@@ -49,8 +49,8 @@ class FeatureDetector: NSObject {
                 switch completion {
                 case .finished:
                     return
-                case .failure(let error):
-                    print("error: \(error)")
+                case .failure(let error): break
+//                    print("error: \(error)")
                 }
             } receiveValue: { _ in
                 self.modelFinishedWriting = true
@@ -62,8 +62,8 @@ class FeatureDetector: NSObject {
                 switch completion {
                 case .finished:
                     return
-                case .failure(let error):
-                    print("error: \(error)")
+                case .failure(let error): break
+//                    print("error: \(error)")
                 }
             } receiveValue: { _ in
                 self.modelAssetWriterPrepared = false
@@ -119,7 +119,9 @@ extension FeatureDetector: AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptu
             //since Writer Preparation might take some time, initiate it here already
             if !modelAssetWriterPrepared {
                 modelAssetWriterPrepared = true
-                model?.perform(action: .prepareWriter(sampleBuffer))
+                Task { @MainActor in
+                    model?.perform(action: .prepareWriter(sampleBuffer))
+                }
             }
             
             if !shouldRecord {
@@ -145,7 +147,7 @@ extension FeatureDetector: AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptu
                         orientation: .upMirrored)
                       
                     } catch {
-                      print(error.localizedDescription)
+//                      print(error.localizedDescription)
                     }
                 }
                 
@@ -156,7 +158,10 @@ extension FeatureDetector: AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptu
             if shouldRecord && !isRecording {
                 guard let model = model else {return}
     //            print("should record")
-                model.perform(action: .writingVideo(sampleBuffer))
+                Task {@MainActor in
+                    model.perform(action: .writingVideo(sampleBuffer))
+                }
+                
             }
         }
         
@@ -178,13 +183,15 @@ extension FeatureDetector {
         }
         
         //DEBUG
-        print("DEBUG: detectedHumanRectangle")
+//        print("DEBUG: detectedHumanRectangle")
         //check if there is a result
         guard let results = request.results as? [VNHumanObservation],
               let result = results.first else{
             //publish no human detected
 //            print("no human detected")
-            model.perform(action: .noHumanDetected)
+            Task {@MainActor in
+                model.perform(action: .noHumanDetected)
+            }
             return
         }
 //        print("human detected")
@@ -194,12 +201,12 @@ extension FeatureDetector {
         //Create a bodyObservationModel with the bounding Box
         
         //DEBUG: print boundingbox coordinates
-        print(convertedBoundingBox.origin.y-convertedBoundingBox.height)
+//        print(convertedBoundingBox.origin.y-convertedBoundingBox.height)
         
         let bodyObservationModel = BodyGeometryModel(boundingBox: convertedBoundingBox)
         
         //send the new Model to the CameraViewModel and perform the detected function
-        print("DEBUG: Person Found, running next request")
+//        print("DEBUG: Person Found, running next request")
         detectHumanBodyPose(in: self.currentFrameBuffer!, boundingBox: bodyObservationModel)
         
     }
@@ -207,13 +214,13 @@ extension FeatureDetector {
 
 extension FeatureDetector {
     func detectHumanBodyPose(in imageBuffer: CVImageBuffer, boundingBox: BodyGeometryModel) {
-        print("DEBUG: Perfomring HumanBodyPoseRequest")
+//        print("DEBUG: Perfomring HumanBodyPoseRequest")
         guard let model = self.model else {
             return
         }
         let detectHumanBodyPoseRequest = VNDetectHumanBodyPoseRequest { request, error in
             guard let observations = request.results as? [VNHumanBodyPoseObservation], !observations.isEmpty else {
-                print("No body pose detected.")
+//                print("No body pose detected.")
                 return
             }
             guard let firstPerson = observations.first else {
@@ -228,30 +235,30 @@ extension FeatureDetector {
                 if let leftFoot = recognizedPoints[leftAnkle.rawValue], let rightFoot = recognizedPoints[rightAnkle.rawValue] {
                     // Ensure points have sufficient confidence
                     guard leftFoot.confidence > 0.1, rightFoot.confidence > 0.1 else {
-                        print("Low confidence for foot key points.")
+//                        print("Low confidence for foot key points.")
                         return
                     }
-                    print("DEBUG: Left Foot at: \(leftFoot.location.y)")
+//                    print("DEBUG: Left Foot at: \(leftFoot.location.y)")
                     // Check if feet are within image bounds
                     if leftFoot.location.y >= 0.04 && leftFoot.location.y <= 1 &&
                         rightFoot.location.y >= 0.04 && rightFoot.location.y <= 1 {
-                        print("Feet are within the image bounds.")
-                        print("DEBUG: Left Foot at: \(leftFoot.location.y)")
+//                        print("Feet are within the image bounds.")
+//                        print("DEBUG: Left Foot at: \(leftFoot.location.y)")
                         
                         //accept the position and return to recorder
                         model.perform(action: .humanObservationDetected(boundingBox))
                     } else {
-                        print("Feet are not within the image bounds.")
+//                        print("Feet are not within the image bounds.")
                         return
                     }
                     
                 } else {
-                    print("Feet key points not detected.")
+//                    print("Feet key points not detected.")
                     return
                 }
                 
             } catch {
-                print("Error extracting recognized points: \(error)")
+//                print("Error extracting recognized points: \(error)")
             }
             
         }
@@ -260,7 +267,7 @@ extension FeatureDetector {
         
         
         do {
-            print("DEBUG: executed")
+//            print("DEBUG: executed")
             try sequenceHandler.perform(
                 [detectHumanBodyPoseRequest],
                 on: self.currentFrameBuffer!,
